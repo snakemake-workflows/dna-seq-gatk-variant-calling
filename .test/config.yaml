@@ -5,7 +5,7 @@ units: units.tsv
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
-  index: data/ref/genome.chr21.fa
+  genome: data/ref/genome.chr21.fa
   known-variants: data/ref/dbsnp.vcf.gz
 
 filtering:

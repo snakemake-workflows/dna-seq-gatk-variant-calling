@@ -2,12 +2,12 @@
 rule call_variants:
     input:
         bam=get_sample_bams,
-        ref=config["ref"]["index"],
+        ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
-        gvcf="calls/{sample}.g.vcf.gz"
+        gvcf="calls/{sample}.{contig}.g.vcf.gz"
     log:
-        "logs/gatk/haplotypecaller/{sample}.log"
+        "logs/gatk/haplotypecaller/{sample}.{contig}.log"
     params:
         extra=config["params"]["gatk"]["HaplotypeCaller"]
     wrapper:
@@ -16,25 +16,36 @@ rule call_variants:
 
 rule combine_calls:
     input:
-        ref=config["ref"]["index"],
-        gvcfs=expand("calls/{sample}.g.vcf.gz", sample=samples.index)
+        ref=config["ref"]["genome"],
+        gvcfs=expand("calls/{sample}.{{contig}}.g.vcf.gz", sample=samples.index)
     output:
-        gvcf="calls/all.g.vcf.gz"
+        gvcf="calls/all.{contig}.g.vcf.gz"
     log:
-        "logs/gatk/combinegvcfs.log"
+        "logs/gatk/combinegvcfs.{contig}.log"
     wrapper:
         "gatk4/bio/gatk/combinegvcfs"
 
 
 rule genotype_variants:
     input:
-        ref=config["ref"]["index"],
-        gvcf="calls/all.g.vcf.gz"
+        ref=config["ref"]["genome"],
+        gvcf="calls/all.{contig}.g.vcf.gz"
     output:
-        vcf="calls/all.vcf.gz"
+        vcf="calls/all.{contig}.vcf.gz"
     params:
         extra=config["params"]["gatk"]["GenotypeGVCFs"]
     log:
-        "logs/gatk/genotypegvcfs.log"
+        "logs/gatk/genotypegvcfs.{contig}.log"
     wrapper:
         "gatk4/bio/gatk/genotypegvcfs"
+
+
+rule merge_variants:
+    input:
+        vcf=expand("calls/all.{contig}.vcf.gz", contig=contigs)
+    output:
+        vcf="calls/all.vcf.gz"
+    log:
+        "logs/picard/mergevcfs.log"
+    wrapper:
+        "gatk4/bio/picard/mergevcfs"

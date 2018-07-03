@@ -16,12 +16,12 @@ properties:
   ref:
     type: object
     properties:
-      index:
+      genome:
         type: string
       known-variants:
         type: string
     required:
-      - index
+      - genome
       - known-variants
 
   filtering:

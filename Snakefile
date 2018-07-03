@@ -12,6 +12,10 @@ units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], 
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="schemas/units.schema.yaml")
 
+# contigs in reference genome
+contigs = pd.read_table(config["ref"]["genome"] + ".fai",
+                        header=None, usecols=[0], squeeze=True, dtype=str)
+
 ##### Global variables #####
 target_vcf = expand("calls/all.{vartype}.recalibrated.vcf.gz"
                     if config["filtering"]["vqsr"] else
@@ -21,7 +25,10 @@ target_vcf = expand("calls/all.{vartype}.recalibrated.vcf.gz"
 
 ##### Wildcard constraints #####
 wildcard_constraints:
-    vartype="snvs|indels"
+    vartype="snvs|indels",
+    sample="|".join(samples.index),
+    unit="|".join(units["unit"]),
+    contig="|".join(contigs)
 
 ##### Target rules #####
 rule all:

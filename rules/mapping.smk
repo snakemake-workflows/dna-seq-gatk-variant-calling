@@ -35,13 +35,13 @@ rule map_reads:
     log:
         "logs/bwa_mem/{sample}-{unit}.log"
     params:
-        index=config["ref"]["index"],
+        index=config["ref"]["genome"],
         extra=get_read_group,
         sort="samtools",
         sort_order="coordinate"
     threads: 8
     wrapper:
-        "0.26.1/bio/bwa/mem"
+        "gatk4/bio/bwa/mem"
 
 
 rule mark_duplicates:
@@ -61,7 +61,7 @@ rule mark_duplicates:
 rule recalibrate_base_qualities:
     input:
         bam="dedup/{sample}-{unit}.bam",
-        ref=config["ref"]["index"],
+        ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
         bam="recal/{sample}-{unit}.bam"

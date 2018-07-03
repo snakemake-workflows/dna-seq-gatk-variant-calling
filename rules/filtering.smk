@@ -5,7 +5,7 @@ def get_vartype_arg(wildcards):
 
 rule select_calls:
     input:
-        ref=config["ref"]["index"],
+        ref=config["ref"]["genome"],
         vcf="calls/all.vcf.gz"
     output:
         vcf="calls/all.{vartype}.vcf.gz"
@@ -19,7 +19,7 @@ rule select_calls:
 
 rule hard_filter_calls:
     input:
-        ref=config["ref"]["index"],
+        ref=config["ref"]["genome"],
         vcf="calls/all.{vartype}.vcf.gz"
     output:
         vcf="calls/all.{vartype}.filtered.vcf.gz"

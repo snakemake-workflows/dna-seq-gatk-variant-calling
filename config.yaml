@@ -5,7 +5,7 @@ units: units.tsv
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
-  index: path/to/genome.fa
+  genome: path/to/genome.fa
   # known variants (e.g. DBSNP)
   known-variants: path/to/dbsnp.vcf
 
