@@ -5,9 +5,8 @@ units: units.tsv
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
-  index: path/to/genome.fa
-  # known variants (e.g. DBSNP)
-  known-variants: path/to/dbsnp.vcf
+  index: data/ref/genome.chr21.fa
+  known-variants: data/ref/dbsnp.vcf.gz
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of

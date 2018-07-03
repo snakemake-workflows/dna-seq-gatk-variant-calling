@@ -8,6 +8,9 @@ properties:
   unit:
     type: string
     description: unit id
+  platform:
+    type: string
+    enum: ["CAPILLARY", "LS454", "ILLUMINA", "SOLID", "HELICOS", "IONTORRENT", "ONT", "PACBIO"]
   fq1:
     type: string
     description: path to FASTQ file
@@ -17,4 +20,5 @@ properties:
 required:
   - sample
   - unit
+  - platform
   - fq1

@@ -25,3 +25,7 @@ scripts/.snakemake*
 !units.tsv
 !schemas
 !schemas/*
+!.test/data
+!.test/samples.tsv
+!.test/units.tsv
+!.test/config.yaml

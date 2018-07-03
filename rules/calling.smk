@@ -1,14 +1,9 @@
-def get_sample_bams(wildcards):
-    return expand("recal/{sample}-{unit}.bam",
-                  sample=wildcards.sample,
-                  unit=units.loc[wildcards.sample].unit)
-
 
 rule call_variants:
     input:
-        bam=get_sample_bams
+        bam=get_sample_bams,
         ref=config["ref"]["index"],
-        known=config["ref"]["known"]
+        known=config["ref"]["known-variants"]
     output:
         gvcf="calls/{sample}.g.vcf.gz"
     log:
@@ -16,26 +11,30 @@ rule call_variants:
     params:
         extra=config["params"]["gatk"]["HaplotypeCaller"]
     wrapper:
-        "master/bio/gatk/haplotypecaller"
+        "gatk4/bio/gatk/haplotypecaller"
 
 
 rule combine_calls:
     input:
-        expand("calls/{sample}.g.vcf.gz", sample=samples.index)
+        ref=config["ref"]["index"],
+        gvcfs=expand("calls/{sample}.g.vcf.gz", sample=samples.index)
     output:
-        "calls/all.g.vcf.gz"
+        gvcf="calls/all.g.vcf.gz"
     log:
         "logs/gatk/combinegvcfs.log"
     wrapper:
-        "master/bio/gatk/combinegvcfs"
+        "gatk4/bio/gatk/combinegvcfs"
 
 
 rule genotype_variants:
     input:
-        "calls/all.g.vcf.gz"
+        ref=config["ref"]["index"],
+        gvcf="calls/all.g.vcf.gz"
     output:
-        "calls/all.vcf.gz"
+        vcf="calls/all.vcf.gz"
+    params:
+        extra=config["params"]["gatk"]["GenotypeGVCFs"]
     log:
         "logs/gatk/genotypegvcfs.log"
     wrapper:
-        "master/bio/gatk/genotypegvcfs"
+        "gatk4/bio/gatk/genotypegvcfs"

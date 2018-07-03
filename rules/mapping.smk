@@ -1,12 +1,18 @@
+rule trim_reads_se:
+    input:
+        get_fastq
+    output:
+        fastq="trimmed/{sample}-{unit}.fastq.gz",
+        qc="trimmed/{sample}-{unit}.qc.txt"
+    params:
+        "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["se"])
+    log:
+        "logs/cutadapt/{sample}-{unit}.log"
+    wrapper:
+        "0.17.4/bio/cutadapt/se"
 
 
-def get_fastq(wildcards):
-    fqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]]
-    assert not fqs.isnull().any()
-    return fqs
-
-
-rule trim_reads:
+rule trim_reads_pe:
     input:
         get_fastq
     output:
@@ -14,7 +20,7 @@ rule trim_reads:
         fastq2="trimmed/{sample}-{unit}.2.fastq.gz",
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
-        "-a {} {}".format(config["adapter"], config["params"]["cutadapt-pe"])
+        "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["pe"])
     log:
         "logs/cutadapt/{sample}-{unit}.log"
     wrapper:
@@ -23,15 +29,14 @@ rule trim_reads:
 
 rule map_reads:
     input:
-        reads=["trimmed/{sample}-{unit}.1.fastq",
-               "trimmed/{sample}-{unit}.2.fastq"]
+        reads=get_trimmed_reads
     output:
         temp("mapped/{sample}-{unit}.sorted.bam")
     log:
         "logs/bwa_mem/{sample}-{unit}.log"
     params:
         index=config["ref"]["index"],
-        extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
+        extra=get_read_group,
         sort="samtools",
         sort_order="coordinate"
     threads: 8
@@ -41,14 +46,14 @@ rule map_reads:
 
 rule mark_duplicates:
     input:
-        "mapped/{sample}-{unit}.bam"
+        "mapped/{sample}-{unit}.sorted.bam"
     output:
         bam="dedup/{sample}-{unit}.bam",
         metrics="dedup/{sample}-{unit}.metrics.txt"
     log:
         "logs/picard/dedup/{sample}-{unit}.log"
     params:
-        "REMOVE_DUPLICATES=true"
+        config["params"]["picard"]["MarkDuplicates"]
     wrapper:
         "0.26.1/bio/picard/markduplicates"
 
@@ -57,7 +62,7 @@ rule recalibrate_base_qualities:
     input:
         bam="dedup/{sample}-{unit}.bam",
         ref=config["ref"]["index"],
-        known=config["ref"]["known"]
+        known=config["ref"]["known-variants"]
     output:
         bam="recal/{sample}-{unit}.bam"
     params:
@@ -65,4 +70,4 @@ rule recalibrate_base_qualities:
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
-        "master/bio/gatk/baserecalibrator"
+        "gatk4/bio/gatk/baserecalibrator"

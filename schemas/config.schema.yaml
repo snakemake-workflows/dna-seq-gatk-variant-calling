@@ -18,49 +18,76 @@ properties:
     properties:
       index:
         type: string
-      annotation:
+      known-variants:
         type: string
     required:
       - index
-      - annotation
+      - known-variants
 
-  pca:
+  filtering:
     type: object
     properties:
-      labels:
-        type: array
-        items:
-          type: string
-    required:
-      - labels
-
-  diffexp:
-    type: object
-    properties:
-      contrasts:
+      vqsr:
+        type: boolean
+      hard:
         type: object
+        properties:
+          snvs:
+            type: string
+          indels:
+            type: string
+        required:
+          - snvs
+          - indels
     required:
-      - contrasts
+      - vqsr
+      - hard
 
   params:
     type: object
     properties:
-      star: 
-        type: string
-      cutadapt-se:
-        type: string
-      cutadapt-pe:
-        type: string
+      gatk:
+        type: object
+        properties:
+          HaplotypeCaller:
+            type: string
+          BaseRecalibrator:
+            type: string
+          GenotypeGVCFs:
+            type: string
+          VariantRecalibrator:
+            type: string
+        required:
+          - HaplotypeCaller
+          - BaseRecalibrator
+          - GenotypeGVCFs
+          - VariantRecalibrator
+      cutadapt:
+        type: object
+        properties:
+          se:
+            type: string
+          pe:
+            type: string
+        required:
+          - pe
+          - se
+      picard:
+        type: object
+        properties:
+          MarkDuplicates:
+            type: string
+        required:
+          - MarkDuplicates
     required:
-      - star
-      - cutadapt-se
-      - cutadapt-pe
+      - gatk
+      - cutadapt
+      - picard
 
 required:
   - samples
   - units
   - adapter
   - ref
-  - pca
-  - diffexp
+  - filtering
   - params
