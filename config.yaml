@@ -1,0 +1,21 @@
+ref:
+  index: path/to/genome.fa
+  # known variants (e.g. DBSNP)
+  known: path/to/dbsnp.vcf
+
+filtering:
+  # Set to true in order to apply machine learning based recalibration of
+  # quality scores instead of hard filtering.
+  vqsr: false
+  hard:
+    # hard filtering as outlined in GATK docs
+    # (https://gatkforums.broadinstitute.org/gatk/discussion/2806/howto-apply-hard-filters-to-a-call-set)
+    snv_filter:
+      "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
+    indel_filter:
+      "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
+
+params:
+  gatk:
+    HaplotypeCaller: ""
+    BaseRecalibrator: ""
