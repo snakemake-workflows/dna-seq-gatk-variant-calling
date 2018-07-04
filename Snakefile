@@ -12,3 +12,4 @@ rule all:
 include: "rules/mapping.smk"
 include: "rules/calling.smk"
 include: "rules/filtering.smk"
+include: "rules/stats.smk"
