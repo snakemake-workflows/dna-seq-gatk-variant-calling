@@ -8,7 +8,7 @@ rule select_calls:
         ref=config["ref"]["genome"],
         vcf="calls/all.vcf.gz"
     output:
-        vcf="calls/all.{vartype}.vcf.gz"
+        vcf=temp("calls/all.{vartype}.vcf.gz")
     params:
         extra=get_vartype_arg
     log:
@@ -28,7 +28,7 @@ rule hard_filter_calls:
         ref=config["ref"]["genome"],
         vcf="calls/all.{vartype}.vcf.gz"
     output:
-        vcf="calls/all.{vartype}.filtered.vcf.gz"
+        vcf=temp("calls/all.{vartype}.filtered.vcf.gz")
     params:
         filters=get_filter
     log:
@@ -41,7 +41,7 @@ rule recalibrate_calls:
     input:
         vcf="calls/all.{vartype}.vcf.gz"
     output:
-        vcf="calls/all.{vartype}.recalibrated.vcf.gz"
+        vcf=temp("calls/all.{vartype}.recalibrated.vcf.gz")
     params:
         extra=config["params"]["gatk"]["VariantRecalibrator"]
     log:

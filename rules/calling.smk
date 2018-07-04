@@ -5,7 +5,7 @@ rule call_variants:
         ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
-        gvcf="calls/{sample}.{contig}.g.vcf.gz"
+        gvcf=protected("calls/{sample}.{contig}.g.vcf.gz")
     log:
         "logs/gatk/haplotypecaller/{sample}.{contig}.log"
     params:
@@ -31,7 +31,7 @@ rule genotype_variants:
         ref=config["ref"]["genome"],
         gvcf="calls/all.{contig}.g.vcf.gz"
     output:
-        vcf="calls/all.{contig}.vcf.gz"
+        vcf=temp("calls/all.{contig}.vcf.gz")
     params:
         extra=config["params"]["gatk"]["GenotypeGVCFs"]
     log:

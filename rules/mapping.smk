@@ -2,7 +2,7 @@ rule trim_reads_se:
     input:
         get_fastq
     output:
-        fastq="trimmed/{sample}-{unit}.fastq.gz",
+        fastq=temp("trimmed/{sample}-{unit}.fastq.gz"),
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
         "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["se"])
@@ -16,8 +16,8 @@ rule trim_reads_pe:
     input:
         get_fastq
     output:
-        fastq1="trimmed/{sample}-{unit}.1.fastq.gz",
-        fastq2="trimmed/{sample}-{unit}.2.fastq.gz",
+        fastq1=temp("trimmed/{sample}-{unit}.1.fastq.gz"),
+        fastq2=temp("trimmed/{sample}-{unit}.2.fastq.gz"),
         qc="trimmed/{sample}-{unit}.qc.txt"
     params:
         "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["pe"])
@@ -48,7 +48,7 @@ rule mark_duplicates:
     input:
         "mapped/{sample}-{unit}.sorted.bam"
     output:
-        bam="dedup/{sample}-{unit}.bam",
+        bam=temp("dedup/{sample}-{unit}.bam"),
         metrics="dedup/{sample}-{unit}.metrics.txt"
     log:
         "logs/picard/dedup/{sample}-{unit}.log"
@@ -64,7 +64,7 @@ rule recalibrate_base_qualities:
         ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
-        bam="recal/{sample}-{unit}.bam"
+        bam=protected("recal/{sample}-{unit}.bam")
     params:
         extra=config["params"]["gatk"]["BaseRecalibrator"]
     log:
