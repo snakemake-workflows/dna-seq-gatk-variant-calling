@@ -11,7 +11,7 @@ rule call_variants:
     params:
         extra=config["params"]["gatk"]["HaplotypeCaller"]
     wrapper:
-        "gatk4/bio/gatk/haplotypecaller"
+        "0.27.0/bio/gatk/haplotypecaller"
 
 
 rule combine_calls:
@@ -23,7 +23,7 @@ rule combine_calls:
     log:
         "logs/gatk/combinegvcfs.{contig}.log"
     wrapper:
-        "gatk4/bio/gatk/combinegvcfs"
+        "0.27.0/bio/gatk/combinegvcfs"
 
 
 rule genotype_variants:
@@ -37,7 +37,7 @@ rule genotype_variants:
     log:
         "logs/gatk/genotypegvcfs.{contig}.log"
     wrapper:
-        "gatk4/bio/gatk/genotypegvcfs"
+        "0.27.0/bio/gatk/genotypegvcfs"
 
 
 rule merge_variants:
@@ -48,4 +48,4 @@ rule merge_variants:
     log:
         "logs/picard/mergevcfs.log"
     wrapper:
-        "gatk4/bio/picard/mergevcfs"
+        "0.27.0/bio/picard/mergevcfs"

@@ -11,7 +11,16 @@ sample_info = sample_info.rename({"level_1": "sample"}, axis=1)
 sample_info = sample_info[sample_info["DP"] > 0]
 sample_info["freq"] = sample_info["AD"] / sample_info["DP"]
 
+plt.figure()
 
-sns.pairplot(hue="sample", vars=["DP", "freq"], data=sample_info)
+sns.stripplot(x="sample", y="freq", data=sample_info, jitter=True)
+plt.ylabel("allele frequency")
 
-plt.savefig(snakemake.output[0])
+plt.savefig(snakemake.output.freqs)
+
+plt.figure()
+
+sns.stripplot(x="sample", y="DP", data=sample_info, jitter=True)
+plt.ylabel("read depth")
+
+plt.savefig(snakemake.output.depths)

@@ -41,7 +41,7 @@ rule map_reads:
         sort_order="coordinate"
     threads: 8
     wrapper:
-        "gatk4/bio/bwa/mem"
+        "0.27.0/bio/bwa/mem"
 
 
 rule mark_duplicates:
@@ -49,7 +49,7 @@ rule mark_duplicates:
         "mapped/{sample}-{unit}.sorted.bam"
     output:
         bam=temp("dedup/{sample}-{unit}.bam"),
-        metrics="dedup/{sample}-{unit}.metrics.txt"
+        metrics="qc/dedup/{sample}-{unit}.metrics.txt"
     log:
         "logs/picard/dedup/{sample}-{unit}.log"
     params:
@@ -70,4 +70,4 @@ rule recalibrate_base_qualities:
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
-        "gatk4/bio/gatk/baserecalibrator"
+        "0.27.0/bio/gatk/baserecalibrator"

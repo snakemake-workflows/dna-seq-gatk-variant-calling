@@ -5,6 +5,8 @@ units: units.tsv
 adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
+  # name used in snpeff database
+  name: GRCh38.86
   genome: path/to/genome.fa
   # known variants (e.g. DBSNP)
   known-variants: path/to/dbsnp.vcf

@@ -13,7 +13,8 @@ rule plot_depths:
     input:
         "tables/calls.tsv.gz"
     output:
-        report("plots/depths.svg", caption="../report/depths.rst")
+        depths=report("plots/depths.svg", caption="../report/depths.rst"),
+        freqs=report("plots/allele-freqs.svg", caption="../report/freqs.rst")
     conda:
         "../envs/stats.yaml"
     script:

@@ -14,7 +14,7 @@ rule select_calls:
     log:
         "logs/gatk/selectvariants/{vartype}.log"
     wrapper:
-        "gatk4/bio/gatk/selectvariants"
+        "0.27.0/bio/gatk/selectvariants"
 
 
 def get_filter(wildcards):
@@ -34,7 +34,7 @@ rule hard_filter_calls:
     log:
         "logs/gatk/variantfiltration/{vartype}.log"
     wrapper:
-        "gatk4/bio/gatk/variantfiltration"
+        "0.27.0/bio/gatk/variantfiltration"
 
 
 rule recalibrate_calls:
@@ -47,7 +47,7 @@ rule recalibrate_calls:
     log:
         "logs/gatk/variantrecalibrator/{vartype}.log"
     wrapper:
-        "gatk4/bio/gatk/variantrecalibrator"
+        "0.27.0/bio/gatk/variantrecalibrator"
 
 
 rule merge_calls:
@@ -62,4 +62,4 @@ rule merge_calls:
     log:
         "logs/picard/mergevcfs.log"
     wrapper:
-        "gatk4/bio/picard/mergevcfs"
+        "0.27.0/bio/picard/mergevcfs"
