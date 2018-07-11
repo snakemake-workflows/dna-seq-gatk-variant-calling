@@ -27,7 +27,7 @@ rule multiqc:
                u=units.itertuples()),
         "snpeff/all.csv"
     output:
-        "qc/multiqc.html"
+        report("qc/multiqc.html", caption="../report/multiqc.rst")
     log:
         "logs/multiqc.log"
     wrapper:

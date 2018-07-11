@@ -6,10 +6,12 @@ rule vcf_to_tsv:
     conda:
         "../envs/rbt.yaml"
     shell:
-        "rbt vcf-to-txt -g --fmt DP AD < {input} | gzip > {output}"
+        "bcftools view --apply-filters PASS --output-type u {input} | "
+        "rbt vcf-to-txt -g --fmt DP AD --info ANN | "
+        "gzip > {output}"
 
 
-rule plot_depths:
+rule plot_stats:
     input:
         "tables/calls.tsv.gz"
     output:

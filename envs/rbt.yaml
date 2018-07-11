@@ -3,3 +3,4 @@ channels:
   - conda-forge
 dependencies:
   - rust-bio-tools =0.2.6
+  - bcftools =1.8
