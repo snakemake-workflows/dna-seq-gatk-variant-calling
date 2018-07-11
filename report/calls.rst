@@ -1,1 +1,1 @@
-Variant calls as gzipped TSV table.
+Variant calls as gzipped tab separated table (TSV).

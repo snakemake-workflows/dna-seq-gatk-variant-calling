@@ -41,7 +41,7 @@ rule map_reads:
         sort_order="coordinate"
     threads: 8
     wrapper:
-        "0.27.0/bio/bwa/mem"
+        "0.27.1/bio/bwa/mem"
 
 
 rule mark_duplicates:
@@ -70,4 +70,4 @@ rule recalibrate_base_qualities:
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
-        "0.27.0/bio/gatk/baserecalibrator"
+        "0.27.1/bio/gatk/baserecalibrator"

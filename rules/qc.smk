@@ -16,7 +16,7 @@ rule samtools_stats:
     log:
         "logs/samtools-stats/{sample}-{unit}.log"
     wrapper:
-        "0.27.0/bio/samtools/stats"
+        "0.27.1/bio/samtools/stats"
 
 
 rule multiqc:
@@ -31,4 +31,4 @@ rule multiqc:
     log:
         "logs/multiqc.log"
     wrapper:
-        "0.27.0/bio/multiqc"
+        "0.27.1/bio/multiqc"

@@ -1,1 +1,1 @@
-Read depth vs. allele depth for all called variants. Colored by sample.
+Read depth distribution over variant alleles of each sample.

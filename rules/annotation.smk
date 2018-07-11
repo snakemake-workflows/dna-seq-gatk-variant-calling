@@ -1,9 +1,8 @@
 rule snpeff:
     input:
-        "calls/all.final.vcf.gz",
+        "filtered/all.vcf.gz",
     output:
-        vcf="calls/all.annotated.vcf.gz",
-        stats="snpeff/all.html",
+        vcf="annotated/all.vcf.gz",
         csvstats="snpeff/all.csv"
     log:
         "logs/snpeff.log"
@@ -11,4 +10,4 @@ rule snpeff:
         reference=config["ref"]["name"],
         extra="-Xmx6g"
     wrapper:
-        "master/bio/snpeff"
+        "0.27.1/bio/snpeff"

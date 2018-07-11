@@ -29,3 +29,5 @@ scripts/.snakemake*
 !.test/samples.tsv
 !.test/units.tsv
 !.test/config.yaml
+!report
+!report/*.rst
