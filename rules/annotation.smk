@@ -2,7 +2,7 @@ rule snpeff:
     input:
         "filtered/all.vcf.gz",
     output:
-        vcf=report("annotated/all.vcf.gz", caption="../report/vcf.rst")
+        vcf=report("annotated/all.vcf.gz", caption="../report/vcf.rst", category="Calls"),
         csvstats="snpeff/all.csv"
     log:
         "logs/snpeff.log"
