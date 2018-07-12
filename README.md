@@ -41,7 +41,7 @@ or
 
     snakemake --drmaa --jobs 100
 
-See the [Snakemake documentation](https://snakemake.readthedocs.io) for further details.
+See the [Snakemake documentation](http://snakemake.readthedocs.io/en/stable/executable.html) for further details and other options (e.g. Cloud execution).
 
 ### Step 4: Investigate results
 
