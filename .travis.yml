@@ -30,3 +30,4 @@ script:
   # run the workflow
   # put a test case into the subfolder .test (e.g., use https://github.com/snakemake-workflows/ngs-test-data as a submodule)
   - snakemake --use-conda --directory .test
+  - snakemake --directory .test --report report.html
