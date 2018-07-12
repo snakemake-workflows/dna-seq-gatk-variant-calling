@@ -45,8 +45,6 @@ See the [Snakemake documentation](http://snakemake.readthedocs.io/en/stable/exec
 
 ### Step 4: Investigate results
 
-### Step 4: Investigate results
-
 After successful execution, you can create a self-contained report with all results via:
 
     snakemake --report report.html
