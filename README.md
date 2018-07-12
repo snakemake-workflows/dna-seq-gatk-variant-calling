@@ -43,6 +43,16 @@ or
 
 See the [Snakemake documentation](https://snakemake.readthedocs.io) for further details.
 
+### Step 4: Investigate results
+
+### Step 4: Investigate results
+
+After successful execution, you can create a self-contained report with all results via:
+
+    snakemake --report report.html
+ 
+Example output from our test dataset can be seen [here](https://cdn.rawgit.com/snakemake-workflows/dna-seq-gatk-variant-calling/master/.test/report.html).
+
 ## Testing
 
 Tests cases are in the subfolder `.test`. They should be executed via continuous integration with Travis CI.
