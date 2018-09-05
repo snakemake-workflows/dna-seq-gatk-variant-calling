@@ -6,10 +6,11 @@ adapter: ACGGATCGATCGATCGATCGAT
 
 ref:
   # name used in snpeff database
-  name: GRCh38.86
-  genome: path/to/genome.fa
+  name: hg19
+  genome: /vol/ref/aws-igenomes/Homo_sapiens/UCSC/hg19/BWAIndex/genome.fa
   # known variants (e.g. DBSNP)
-  known-variants: path/to/dbsnp.vcf
+  known-variants: /vol/ref/aws-igenomes/Homo_sapiens/UCSC/hg19/Variation/snp142.vcf
+
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of
@@ -22,6 +23,8 @@ filtering:
       "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
     indels:
       "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
+
+rmdup: false
 
 params:
   gatk:
