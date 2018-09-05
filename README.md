@@ -1,10 +1,10 @@
-# Snakemake workflow: variant-calling-germline
+# Snakemake workflow: dna-seq-gatk-variant-calling
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.5-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![Build Status](https://travis-ci.org/snakemake-workflows/dna-seq-gatk-variant-calling.svg?branch=master)](https://travis-ci.org/snakemake-workflows/dna-seq-gatk-variant-calling)
+[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://cdn.rawgit.com/snakemake-workflows/dna-seq-gatk-variant-calling/master/.test/report.html)
 
-This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
-Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs`. Define the entry point of the workflow in the `Snakefile` and the main configuration in the `config.yaml` file.
+This Snakemake pipeline implements the [GATK best-practices workflow](https://software.broadinstitute.org/gatk/best-practices/workflow?id=11145) for calling small genomic variants.
 
 ## Authors
 
@@ -42,8 +42,6 @@ or
     snakemake --drmaa --jobs 100
 
 See the [Snakemake documentation](http://snakemake.readthedocs.io/en/stable/executable.html) for further details and other options (e.g. Cloud execution).
-
-### Step 4: Investigate results
 
 ### Step 4: Investigate results
 
