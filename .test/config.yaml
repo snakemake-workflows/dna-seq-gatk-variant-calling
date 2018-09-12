@@ -4,6 +4,9 @@ units: units.tsv
 # the sequencing adapter
 adapter: ACGGATCGATCGATCGATCGAT
 
+# whether to remove PCR/optical duplicates
+rmdup: true
+
 ref:
   name: GRCh38.86
   genome: data/ref/genome.chr21.fa

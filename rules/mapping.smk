@@ -60,7 +60,7 @@ rule mark_duplicates:
 
 rule recalibrate_base_qualities:
     input:
-        bam="dedup/{sample}-{unit}.bam",
+        bam="mapped/{sample}-{unit}.sorted.bam" if not config["rmdup"] else "dedup/{sample}-{unit}.bam",
         ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
