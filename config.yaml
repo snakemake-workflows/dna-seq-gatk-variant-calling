@@ -38,4 +38,5 @@ params:
     pe: ""
     se: ""
   trimmomatic:
-    trimmer: ["ILLUMINACLIP:../raw/primers_adapters.fasta"]
+    trimmer: ["ILLUMINACLIP:../raw/primers_adapters.fasta:2:30:10", "LEADING:3", "TRAILING:3", "SLIDINGWINDOW:4:15", "MINLEN:36"]
+    extra: ""
