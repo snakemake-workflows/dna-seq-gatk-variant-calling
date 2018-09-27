@@ -9,7 +9,7 @@ ref:
   name: hg19
   genome: /vol/ref/aws-igenomes/Homo_sapiens/UCSC/hg19/BWAIndex/genome.fa
   # known variants (e.g. DBSNP)
-  known-variants: /vol/ref/aws-igenomes/Homo_sapiens/UCSC/hg19/Variation/snp142.vcf
+  known-variants: /vol/ref/aws-igenomes/Homo_sapiens/GATK/hg19/bundle/dbsnp_138.hg19.vcf
 
 
 filtering:
@@ -37,3 +37,5 @@ params:
   cutadapt:
     pe: ""
     se: ""
+  trimmomatic:
+    trimmer: ["ILLUMINACLIP:../raw/primers_adapters.fasta"]

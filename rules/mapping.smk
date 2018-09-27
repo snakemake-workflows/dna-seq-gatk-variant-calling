@@ -1,30 +1,30 @@
 rule trim_reads_se:
     input:
-        get_fastq
+        unpack(get_fastq)
     output:
-        fastq=temp("trimmed/{sample}-{unit}.fastq.gz"),
-        qc="trimmed/{sample}-{unit}.qc.txt"
+        temp("trimmed/{sample}-{unit}.fastq.gz")
     params:
-        "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["se"])
+        **config["params"]["trimmomatic"]
     log:
-        "logs/cutadapt/{sample}-{unit}.log"
+        "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.17.4/bio/cutadapt/se"
+        "0.27.1/bio/trimmomatic/se"
 
 
 rule trim_reads_pe:
     input:
-        get_fastq
+        unpack(get_fastq)
     output:
-        fastq1=temp("trimmed/{sample}-{unit}.1.fastq.gz"),
-        fastq2=temp("trimmed/{sample}-{unit}.2.fastq.gz"),
-        qc="trimmed/{sample}-{unit}.qc.txt"
+        r1=temp("trimmed/{sample}-{unit}.1.fastq.gz"),
+        r2=temp("trimmed/{sample}-{unit}.2.fastq.gz"),
+        r1_unpaired=temp("trimmed/{sample}-{unit}.1.unpaired.fastq.gz"),
+        r2_unpaired=temp("trimmed/{sample}-{unit}.2.unpaired.fastq.gz")
     params:
-        "-a {} {}".format(config["adapter"], config["params"]["cutadapt"]["pe"])
+        **config["params"]["trimmomatic"]
     log:
-        "logs/cutadapt/{sample}-{unit}.log"
+        "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.17.4/bio/cutadapt/pe"
+        "0.27.1/bio/trimmomatic/pe"
 
 
 rule map_reads:
