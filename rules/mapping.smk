@@ -4,7 +4,7 @@ rule trim_reads_se:
     output:
         temp("trimmed/{sample}-{unit}.fastq.gz")
     params:
-        **config["params"]["trimmomatic"]
+        **config["params"]["trimmomatic"]["se"]
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
@@ -20,7 +20,7 @@ rule trim_reads_pe:
         r1_unpaired=temp("trimmed/{sample}-{unit}.1.unpaired.fastq.gz"),
         r2_unpaired=temp("trimmed/{sample}-{unit}.2.unpaired.fastq.gz")
     params:
-        **config["params"]["trimmomatic"]
+        **config["params"]["trimmomatic"]["pe"]
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
