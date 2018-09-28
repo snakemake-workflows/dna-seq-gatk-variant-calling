@@ -64,3 +64,14 @@ def get_sample_bams(wildcards):
     return expand("recal/{sample}-{unit}.bam",
                   sample=wildcards.sample,
                   unit=units.loc[wildcards.sample].unit)
+
+
+def get_regions_param():
+    regions = config["processing"].get("restrict-regions")
+    if regions:
+        params = "--intervals '{}' ".format(regions)
+        padding = config["processing"].get("region-padding")
+        if padding:
+            params += "--interval-padding {}".format(padding)
+        return params
+    return ""

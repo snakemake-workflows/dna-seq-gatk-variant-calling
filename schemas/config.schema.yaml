@@ -9,9 +9,6 @@ properties:
     type: string
   units:
     type: string
-  adapter:
-    type: string
-    pattern: "^[ACGT]+$"
 
   ref:
     type: object
@@ -42,6 +39,18 @@ properties:
     required:
       - vqsr
       - hard
+
+  processing:
+    type: object
+    properties:
+      remove-duplicates:
+        type: boolean
+      restrict-regions:
+        type: string
+      region-padding:
+        type: integer
+    required:
+      - remove-duplicates
 
   params:
     type: object
@@ -87,7 +96,7 @@ properties:
 required:
   - samples
   - units
-  - adapter
   - ref
   - filtering
+  - processing
   - params

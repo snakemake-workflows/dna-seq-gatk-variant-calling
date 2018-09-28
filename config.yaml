@@ -1,9 +1,6 @@
 samples: samples.tsv
 units: units.tsv
 
-# the sequencing adapter
-adapter: ACGGATCGATCGATCGATCGAT
-
 ref:
   # name used in snpeff database
   name: hg19
@@ -24,7 +21,14 @@ filtering:
     indels:
       "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
 
-rmdup: false
+processing:
+  remove-duplicates: false
+  # point to a bed file with e.g. captured regions if necessary,
+  # see https://gatkforums.broadinstitute.org/gatk/discussion/4133/when-should-i-use-l-to-pass-in-a-list-of-intervals
+  restrict-regions: ../raw/captured_regions.bed
+  # If regions are restricted, use this to enlarge them in order to include
+  # flanking areas.
+  region-padding: 100
 
 params:
   gatk:
@@ -45,7 +49,6 @@ params:
         - "TRAILING:3"
         - "SLIDINGWINDOW:4:15"
         - "MINLEN:36"
-      extra: ""
     se:
       trimmer: 
         - "ILLUMINACLIP:../raw/primers_adapters.fasta:2:30:10"
@@ -53,4 +56,3 @@ params:
         - "TRAILING:3"
         - "SLIDINGWINDOW:4:15"
         - "MINLEN:36"
-      extra: ""

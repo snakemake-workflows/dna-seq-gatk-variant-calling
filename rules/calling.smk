@@ -9,7 +9,7 @@ rule call_variants:
     log:
         "logs/gatk/haplotypecaller/{sample}.{contig}.log"
     params:
-        extra=config["params"]["gatk"]["HaplotypeCaller"]
+        extra=get_regions_param() + config["params"]["gatk"]["HaplotypeCaller"]
     wrapper:
         "0.27.1/bio/gatk/haplotypecaller"
 

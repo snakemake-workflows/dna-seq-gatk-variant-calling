@@ -18,8 +18,10 @@ rule trim_reads_pe:
         r1=temp("trimmed/{sample}-{unit}.1.fastq.gz"),
         r2=temp("trimmed/{sample}-{unit}.2.fastq.gz"),
         r1_unpaired=temp("trimmed/{sample}-{unit}.1.unpaired.fastq.gz"),
-        r2_unpaired=temp("trimmed/{sample}-{unit}.2.unpaired.fastq.gz")
+        r2_unpaired=temp("trimmed/{sample}-{unit}.2.unpaired.fastq.gz"),
+        trimlog="trimmed/{sample}-{unit}.trimlog.txt"
     params:
+        extra=lambda w, output: "-trimlog {}".format(output.trimlog),
         **config["params"]["trimmomatic"]["pe"]
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
@@ -60,13 +62,13 @@ rule mark_duplicates:
 
 rule recalibrate_base_qualities:
     input:
-        bam="mapped/{sample}-{unit}.sorted.bam" if not config["rmdup"] else "dedup/{sample}-{unit}.bam",
+        bam="mapped/{sample}-{unit}.sorted.bam" if not config["processing"]["remove-duplicates"] else "dedup/{sample}-{unit}.bam",
         ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
         bam=protected("recal/{sample}-{unit}.bam")
     params:
-        extra=config["params"]["gatk"]["BaseRecalibrator"]
+        extra=get_regions_param() + config["params"]["gatk"]["BaseRecalibrator"]
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
