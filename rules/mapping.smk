@@ -60,9 +60,29 @@ rule mark_duplicates:
         "0.26.1/bio/picard/markduplicates"
 
 
+def get_recal_input(bai=False):
+    # case 1: no duplicate removal
+    f = "mapped/{sample}-{unit}.sorted.bam"
+    if config["processing"]["remove-duplicates"]:
+        # case 2: remove duplicates
+        f = "dedup/{sample}-{unit}.bam"
+    if bai:
+        if config["processing"].get("restrict-regions"):
+            # case 3: need an index because random access is required
+            f += ".bai"
+            return f
+        else:
+            # case 4: no index needed
+            return []
+    else:
+        return f
+        
+
+
 rule recalibrate_base_qualities:
     input:
-        bam="mapped/{sample}-{unit}.sorted.bam" if not config["processing"]["remove-duplicates"] else "dedup/{sample}-{unit}.bam",
+        bam=get_recal_input(),
+        bai=get_recal_input(bai=True),
         ref=config["ref"]["genome"],
         known=config["ref"]["known-variants"]
     output:
@@ -73,3 +93,12 @@ rule recalibrate_base_qualities:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
         "0.27.1/bio/gatk/baserecalibrator"
+
+
+rule samtools_index:
+    input:
+        "{prefix}.bam"
+    output:
+        "{prefix}.bam.bai"
+    wrapper:
+        "0.27.1/bio/samtools/index"
