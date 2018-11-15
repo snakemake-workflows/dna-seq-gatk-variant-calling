@@ -1,15 +1,31 @@
+rule compose_regions:
+    input:
+        config["processing"]["restrict-regions"]
+    output:
+        "called/{contig}.regions.bed"
+    conda:
+        "../envs/bedops.yaml"
+    shell:
+        "bedops {wildcards.contig} {input}"
+
+
+def get_call_variants_params(wildcards, input):
+    return (get_regions_param(regions=input.regions, default=f"--intervals {wildcards.contig}") +
+            config["params"]["gatk"]["HaplotypeCaller"])
+
 
 rule call_variants:
     input:
         bam=get_sample_bams,
         ref=config["ref"]["genome"],
-        known=config["ref"]["known-variants"]
+        known=config["ref"]["known-variants"],
+        regions="called/{contig}.regions.bed" if config["processing"].get("restrict-regions") else []
     output:
         gvcf=protected("called/{sample}.{contig}.g.vcf.gz")
     log:
         "logs/gatk/haplotypecaller/{sample}.{contig}.log"
     params:
-        extra=get_regions_param() + config["params"]["gatk"]["HaplotypeCaller"]
+        extra=get_call_variants_params
     wrapper:
         "0.27.1/bio/gatk/haplotypecaller"
 

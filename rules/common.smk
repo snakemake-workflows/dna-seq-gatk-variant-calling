@@ -66,12 +66,11 @@ def get_sample_bams(wildcards):
                   unit=units.loc[wildcards.sample].unit)
 
 
-def get_regions_param():
-    regions = config["processing"].get("restrict-regions")
+def get_regions_param(regions=config["processing"].get("restrict-regions"), default=""):
     if regions:
         params = "--intervals '{}' ".format(regions)
         padding = config["processing"].get("region-padding")
         if padding:
             params += "--interval-padding {}".format(padding)
         return params
-    return ""
+    return default
