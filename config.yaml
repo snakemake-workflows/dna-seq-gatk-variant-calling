@@ -38,9 +38,6 @@ params:
     VariantRecalibrator: ""
   picard:
     MarkDuplicates: "REMOVE_DUPLICATES=true"
-  cutadapt:
-    pe: ""
-    se: ""
   trimmomatic:
     pe:
       trimmer: 
