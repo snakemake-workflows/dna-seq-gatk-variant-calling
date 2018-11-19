@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-06/schema#"
+$schema: "http://json-schema.org/draft-04/schema#"
 
 description: snakemake configuration file
 
@@ -71,16 +71,6 @@ properties:
           - BaseRecalibrator
           - GenotypeGVCFs
           - VariantRecalibrator
-      cutadapt:
-        type: object
-        properties:
-          se:
-            type: string
-          pe:
-            type: string
-        required:
-          - pe
-          - se
       picard:
         type: object
         properties:
@@ -90,7 +80,6 @@ properties:
           - MarkDuplicates
     required:
       - gatk
-      - cutadapt
       - picard
 
 required:

@@ -6,7 +6,7 @@ rule compose_regions:
     conda:
         "../envs/bedops.yaml"
     shell:
-        "bedops {wildcards.contig} {input}"
+        "bedextract {wildcards.contig} {input} > {output}"
 
 
 def get_call_variants_params(wildcards, input):
