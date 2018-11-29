@@ -1,9 +1,6 @@
 samples: samples.tsv
 units: units.tsv
 
-# the sequencing adapter
-adapter: ACGGATCGATCGATCGATCGAT
-
 ref:
   name: GRCh38.86
   genome: data/ref/genome.chr21.fa
@@ -21,6 +18,11 @@ filtering:
     indels:
       "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
 
+processing:
+  remove-duplicates: true
+  # restrict-regions: ../raw/captured_regions.bed
+  # region-padding: 100
+
 params:
   gatk:
     HaplotypeCaller: ""
@@ -29,6 +31,16 @@ params:
     VariantRecalibrator: ""
   picard:
     MarkDuplicates: "REMOVE_DUPLICATES=true"
-  cutadapt:
-    pe: ""
-    se: ""
+  trimmomatic:
+    pe:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+    se:
+      trimmer:
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
