@@ -2,8 +2,10 @@ rule trim_reads_se:
     input:
         unpack(get_fastq)
     output:
-        temp("trimmed/{sample}-{unit}.fastq.gz")
+        temp("trimmed/{sample}-{unit}.fastq.gz"),
+        trimlog="trimmed/{sample}-{unit}.trimlog.txt"
     params:
+        extra=lambda w, output: "-trimlog {}".format(output.trimlog),
         **config["params"]["trimmomatic"]["se"]
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
