@@ -1,12 +1,13 @@
-rule compose_regions:
-    input:
-        config["processing"]["restrict-regions"]
-    output:
-        "called/{contig}.regions.bed"
-    conda:
-        "../envs/bedops.yaml"
-    shell:
-        "bedextract {wildcards.contig} {input} > {output}"
+if "restrict-regions" in config["processing"]:
+    rule compose_regions:
+        input:
+            config["processing"]["restrict-regions"]
+        output:
+            "called/{contig}.regions.bed"
+        conda:
+            "../envs/bedops.yaml"
+        shell:
+            "bedextract {wildcards.contig} {input} > {output}"
 
 
 def get_call_variants_params(wildcards, input):
