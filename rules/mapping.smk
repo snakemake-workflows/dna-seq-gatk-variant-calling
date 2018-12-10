@@ -5,7 +5,7 @@ rule trim_reads_se:
         temp("trimmed/{sample}-{unit}.fastq.gz"),
         trimlog="trimmed/{sample}-{unit}.trimlog.txt"
     params:
-        extra=lambda w, output: "-trimlog {}".format(output.trimlog),
+        extra="",
         **config["params"]["trimmomatic"]["se"]
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
