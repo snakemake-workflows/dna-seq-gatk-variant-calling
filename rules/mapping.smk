@@ -10,7 +10,7 @@ rule trim_reads_se:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.27.1/bio/trimmomatic/se"
+        "0.30.0/bio/trimmomatic/se"
 
 
 rule trim_reads_pe:
@@ -28,7 +28,7 @@ rule trim_reads_pe:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.27.1/bio/trimmomatic/pe"
+        "0.30.0/bio/trimmomatic/pe"
 
 
 rule map_reads:
