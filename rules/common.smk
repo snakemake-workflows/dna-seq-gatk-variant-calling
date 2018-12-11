@@ -31,7 +31,10 @@ wildcard_constraints:
 
 def get_fastq(wildcards):
     """Get fastq files of given sample-unit."""
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    fastqs = units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
+    if len(fastqs) == 2:
+        return {"r1": fastqs.fq1, "r2": fastqs.fq2}
+    return {"r1": fastqs.fq1}
 
 
 def is_single_end(sample, unit):
@@ -61,3 +64,13 @@ def get_sample_bams(wildcards):
     return expand("recal/{sample}-{unit}.bam",
                   sample=wildcards.sample,
                   unit=units.loc[wildcards.sample].unit)
+
+
+def get_regions_param(regions=config["processing"].get("restrict-regions"), default=""):
+    if regions:
+        params = "--intervals '{}' ".format(regions)
+        padding = config["processing"].get("region-padding")
+        if padding:
+            params += "--interval-padding {}".format(padding)
+        return params
+    return default

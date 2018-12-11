@@ -1,18 +1,14 @@
 samples: samples.tsv
 units: units.tsv
 
-# the sequencing adapter
-adapter: ACGGATCGATCGATCGATCGAT
-
-# whether to remove PCR/optical duplicates
-rmdup: true
 
 ref:
   # name used in snpeff database
-  name: GRCh38.86
-  genome: path/to/genome.fa
+  name: hg19
+  genome: /vol/tiny/ref/autoref/Homo_sapiens/UCSC/hg19/BWAIndex/genome.fa
   # known variants (e.g. DBSNP)
-  known-variants: path/to/dbsnp.vcf
+  known-variants: /vol/tiny/ref/autoref/Homo_sapiens/GATK/hg19/bundle/dbsnp_138.hg19.vcf
+
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of
@@ -26,6 +22,15 @@ filtering:
     indels:
       "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
 
+processing:
+  remove-duplicates: false
+  # point to a bed file with e.g. captured regions if necessary,
+  # see https://gatkforums.broadinstitute.org/gatk/discussion/4133/when-should-i-use-l-to-pass-in-a-list-of-intervals
+  restrict-regions: ../raw/captured_regions.bed
+  # If regions are restricted, use this to enlarge them in order to include
+  # flanking areas.
+  region-padding: 100
+
 params:
   gatk:
     HaplotypeCaller: ""
@@ -34,6 +39,18 @@ params:
     VariantRecalibrator: ""
   picard:
     MarkDuplicates: "REMOVE_DUPLICATES=true"
-  cutadapt:
-    pe: ""
-    se: ""
+  trimmomatic:
+    pe:
+      trimmer: 
+        - "ILLUMINACLIP:../raw/primers_adapters.fasta:2:30:10"
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"
+    se:
+      trimmer: 
+        - "ILLUMINACLIP:../raw/primers_adapters.fasta:2:30:10"
+        - "LEADING:3"
+        - "TRAILING:3"
+        - "SLIDINGWINDOW:4:15"
+        - "MINLEN:36"

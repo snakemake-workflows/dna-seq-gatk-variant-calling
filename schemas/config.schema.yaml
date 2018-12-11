@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-06/schema#"
+$schema: "http://json-schema.org/draft-04/schema#"
 
 description: snakemake configuration file
 
@@ -9,9 +9,6 @@ properties:
     type: string
   units:
     type: string
-  adapter:
-    type: string
-    pattern: "^[ACGT]+$"
 
   ref:
     type: object
@@ -43,6 +40,18 @@ properties:
       - vqsr
       - hard
 
+  processing:
+    type: object
+    properties:
+      remove-duplicates:
+        type: boolean
+      restrict-regions:
+        type: string
+      region-padding:
+        type: integer
+    required:
+      - remove-duplicates
+
   params:
     type: object
     properties:
@@ -62,16 +71,6 @@ properties:
           - BaseRecalibrator
           - GenotypeGVCFs
           - VariantRecalibrator
-      cutadapt:
-        type: object
-        properties:
-          se:
-            type: string
-          pe:
-            type: string
-        required:
-          - pe
-          - se
       picard:
         type: object
         properties:
@@ -81,13 +80,12 @@ properties:
           - MarkDuplicates
     required:
       - gatk
-      - cutadapt
       - picard
 
 required:
   - samples
   - units
-  - adapter
   - ref
   - filtering
+  - processing
   - params
