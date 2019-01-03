@@ -10,11 +10,6 @@ if "restrict-regions" in config["processing"]:
             "bedextract {wildcards.contig} {input} > {output}"
 
 
-def get_call_variants_params(wildcards, input):
-    return (get_regions_param(regions=input.regions, default=f"--intervals {wildcards.contig}") +
-            config["params"]["gatk"]["HaplotypeCaller"])
-
-
 rule call_variants:
     input:
         bam=get_sample_bams,

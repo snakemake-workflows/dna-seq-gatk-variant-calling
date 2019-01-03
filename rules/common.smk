@@ -74,3 +74,26 @@ def get_regions_param(regions=config["processing"].get("restrict-regions"), defa
             params += "--interval-padding {}".format(padding)
         return params
     return default
+
+
+def get_call_variants_params(wildcards, input):
+    return (get_regions_param(regions=input.regions, default=f"--intervals {wildcards.contig}") +
+            config["params"]["gatk"]["HaplotypeCaller"])
+
+
+def get_recal_input(bai=False):
+    # case 1: no duplicate removal
+    f = "mapped/{sample}-{unit}.sorted.bam"
+    if config["processing"]["remove-duplicates"]:
+        # case 2: remove duplicates
+        f = "dedup/{sample}-{unit}.bam"
+    if bai:
+        if config["processing"].get("restrict-regions"):
+            # case 3: need an index because random access is required
+            f += ".bai"
+            return f
+        else:
+            # case 4: no index needed
+            return []
+    else:
+        return f
