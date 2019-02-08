@@ -22,8 +22,8 @@ filtering:
 
 processing:
   remove-duplicates: true
-  # uncomment and point to a bed file with e.g. captured regions if necessary,
-  # see https://gatkforums.broadinstitute.org/gatk/discussion/4133/when-should-i-use-l-to-pass-in-a-list-of-intervals
+  # Uncomment and point to a bed file with, e.g., captured regions if necessary,
+  # see https://gatkforums.broadinstitute.org/gatk/discussion/4133/when-should-i-use-l-to-pass-in-a-list-of-intervals.
   # restrict-regions: captured_regions.bed
   # If regions are restricted, uncomment this to enlarge them by the given value in order to include
   # flanking areas.
