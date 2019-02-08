@@ -8,7 +8,7 @@ This Snakemake pipeline implements the [GATK best-practices workflow](https://so
 
 ## Authors
 
-* Johannes Köster (@johanneskoester)
+* Johannes Köster (https://koesterlab.github.io)
 
 ## Usage
 
