@@ -10,17 +10,12 @@ report: "../report/workflow.rst"
 
 ###### Config file and sample sheets #####
 p = Project("prjcfg.yaml")
-#print("CONFIGFILE: {}".format(configfile))
-#configfile: "config.yaml"
 configfile: getattr(p, pep_to_snake)
-print("CONFIG: {}".format(config))
 validate(config, schema="../schemas/config.schema.yaml")
 
 sample_sheet_file = config["samples"]
 print("SAMPLE SHEET FILE: {}".format(sample_sheet_file))
 dt = pd.read_table(sample_sheet_file)
-
-print("DT: {}".format(dt))
 
 samples = p.sheet
 if SAMPLE_COLUMN in samples.columns and SAMPLE_COLUMN in samples.columns:
@@ -28,23 +23,14 @@ if SAMPLE_COLUMN in samples.columns and SAMPLE_COLUMN in samples.columns:
 samples.rename({PEPPY_SAMPLE_COLUMN: SAMPLE_COLUMN}, axis=1, inplace=True)
 samples = dt.set_index(SAMPLE_COLUMN, drop=False)
 
-print("SAMPLES: {}".format(samples))
-
-print("CONFIG SAMPLES: {}".format(config["samples"]))
-
-#print("SAMPLES:\n{}".format("\n".join("{} ({})".format(str(s), type(s)) for s in samples)))
-
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="../schemas/units.schema.yaml")
 
-print("GENOME: {}".format(config["ref"]["genome"]))
-
 # contigs in reference genome
 refgen = expandpath(config["ref"]["genome"])
-print("REFGEN: {}".format(refgen))
 contigs = pd.read_table(refgen + ".fai",
                         header=None, usecols=[0], squeeze=True, dtype=str)
 
