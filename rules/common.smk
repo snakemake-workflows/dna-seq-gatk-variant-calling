@@ -1,5 +1,7 @@
+import os
 import pandas as pd
 from peppy import Project, SNAKEMAKE_CONFIG_KEY as pep_to_snake, SAMPLE_NAME_COLNAME as PEPPY_SAMPLE_COLUMN
+from peppy.utils import expandpath
 from snakemake.utils import validate
 
 SAMPLE_COLUMN = "sample"
@@ -15,6 +17,7 @@ print("CONFIG: {}".format(config))
 validate(config, schema="../schemas/config.schema.yaml")
 
 sample_sheet_file = config["samples"]
+print("SAMPLE SHEET FILE: {}".format(sample_sheet_file))
 dt = pd.read_table(sample_sheet_file)
 
 print("DT: {}".format(dt))
@@ -37,8 +40,12 @@ units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], 
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="../schemas/units.schema.yaml")
 
+print("GENOME: {}".format(config["ref"]["genome"]))
+
 # contigs in reference genome
-contigs = pd.read_table(config["ref"]["genome"] + ".fai",
+refgen = expandpath(config["ref"]["genome"])
+print("REFGEN: {}".format(refgen))
+contigs = pd.read_table(refgen + ".fai",
                         header=None, usecols=[0], squeeze=True, dtype=str)
 
 
