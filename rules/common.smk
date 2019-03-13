@@ -22,11 +22,11 @@ dt = pd.read_table(sample_sheet_file)
 
 print("DT: {}".format(dt))
 
-#samples = dt.set_index("sample", drop=False)
 samples = p.sheet
 if SAMPLE_COLUMN in samples.columns and SAMPLE_COLUMN in samples.columns:
     raise Exception("Two sample identifier columns in samples sheet: {}".format(sample_sheet_file))
 samples.rename({PEPPY_SAMPLE_COLUMN: SAMPLE_COLUMN}, axis=1, inplace=True)
+samples = dt.set_index(SAMPLE_COLUMN, drop=False)
 
 print("SAMPLES: {}".format(samples))
 

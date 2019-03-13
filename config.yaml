@@ -4,7 +4,7 @@ units: units.tsv
 ref:
   name: GRCh38.86
   # Path to the reference genome, ideally as it is provided by the GATK bundle.
-  genome: $GENOMES/hg38/hg38.fa
+  genome: data/ref/genome.chr21.fa
   # Path to any database of known variants, ideally as it is provided by the GATK bundle.
   known-variants: data/ref/dbsnp.vcf.gz
 
