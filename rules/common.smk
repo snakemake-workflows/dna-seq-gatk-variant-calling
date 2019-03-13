@@ -1,13 +1,36 @@
 import pandas as pd
+from peppy import Project, SNAKEMAKE_CONFIG_KEY as pep_to_snake, SAMPLE_NAME_COLNAME as PEPPY_SAMPLE_COLUMN
 from snakemake.utils import validate
+
+SAMPLE_COLUMN = "sample"
 
 report: "../report/workflow.rst"
 
 ###### Config file and sample sheets #####
-configfile: "config.yaml"
+p = Project("prjcfg.yaml")
+#print("CONFIGFILE: {}".format(configfile))
+#configfile: "config.yaml"
+configfile: getattr(p, pep_to_snake)
+print("CONFIG: {}".format(config))
 validate(config, schema="../schemas/config.schema.yaml")
 
-samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
+sample_sheet_file = config["samples"]
+dt = pd.read_table(sample_sheet_file)
+
+print("DT: {}".format(dt))
+
+#samples = dt.set_index("sample", drop=False)
+samples = p.sheet
+if SAMPLE_COLUMN in samples.columns and SAMPLE_COLUMN in samples.columns:
+    raise Exception("Two sample identifier columns in samples sheet: {}".format(sample_sheet_file))
+samples.rename({PEPPY_SAMPLE_COLUMN: SAMPLE_COLUMN}, axis=1, inplace=True)
+
+print("SAMPLES: {}".format(samples))
+
+print("CONFIG SAMPLES: {}".format(config["samples"]))
+
+#print("SAMPLES:\n{}".format("\n".join("{} ({})".format(str(s), type(s)) for s in samples)))
+
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
