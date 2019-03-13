@@ -4,8 +4,6 @@ from peppy import Project, SNAKEMAKE_CONFIG_KEY as pep_to_snake, SAMPLE_NAME_COL
 from peppy.utils import expandpath
 from snakemake.utils import validate
 
-SAMPLE_COLUMN = "sample"
-
 report: "../report/workflow.rst"
 
 ###### Config file and sample sheets #####
@@ -13,14 +11,10 @@ p = Project("prjcfg.yaml")
 configfile: getattr(p, pep_to_snake)
 validate(config, schema="../schemas/config.schema.yaml")
 
-sample_sheet_file = config["samples"]
-dt = pd.read_table(sample_sheet_file)
-
 samples = p.sheet
-if SAMPLE_COLUMN in samples.columns and SAMPLE_COLUMN in samples.columns:
-    raise Exception("Two sample identifier columns in samples sheet: {}".format(sample_sheet_file))
-samples.rename({PEPPY_SAMPLE_COLUMN: SAMPLE_COLUMN}, axis=1, inplace=True)
-samples = dt.set_index(SAMPLE_COLUMN, drop=False)
+if "sample" in samples.columns and PEPPY_SAMPLE_COLUMN in samples.columns:
+    raise Exception("Two sample identifier columns in samples sheet: {}".format(config["samples"]))
+samples = samples.rename({PEPPY_SAMPLE_COLUMN: "sample"}, axis=1).set_index("sample", drop=False)
 
 validate(samples, schema="../schemas/samples.schema.yaml")
 
