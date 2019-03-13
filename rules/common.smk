@@ -14,7 +14,6 @@ configfile: getattr(p, pep_to_snake)
 validate(config, schema="../schemas/config.schema.yaml")
 
 sample_sheet_file = config["samples"]
-print("SAMPLE SHEET FILE: {}".format(sample_sheet_file))
 dt = pd.read_table(sample_sheet_file)
 
 samples = p.sheet
