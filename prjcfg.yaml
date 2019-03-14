@@ -1,5 +1,4 @@
 metadata:
-#  output_dir: $PROCESSED/microtest
   sample_annotation: samples_peppy.tsv
   sample_subannotation: units_peppy.tsv
 
