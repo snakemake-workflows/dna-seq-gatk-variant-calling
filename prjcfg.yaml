@@ -1,0 +1,6 @@
+metadata:
+#  output_dir: $PROCESSED/microtest
+  sample_annotation: samples_peppy.tsv
+
+snake_config: "config.yaml"
+
