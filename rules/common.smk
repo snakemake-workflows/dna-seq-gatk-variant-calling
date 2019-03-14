@@ -2,6 +2,25 @@ import pandas as pd
 from peppy import Project, SAMPLE_NAME_COLNAME as PEP_SAMPLE_COL
 from snakemake.utils import validate
 
+
+def peppy_rename(df):
+    return df.rename({PEP_SAMPLE_COL: "sample"}, axis=1)
+
+
+def peppy_units(df):
+    if "unit" in df.columns:
+        return df
+    def count_names(names):
+        def go(rem, n, curr, acc):
+            if rem == []:
+                return acc + [n]
+            h, t = rem[0], rem[1:]
+            return go(t, n + 1, curr, acc) if h == curr else go(t, 1, h, acc + [n])
+        return go(names[1:], 1, names[0], []) if names else []
+    df.insert(1, "unit", [i for n in count_names(list(df[PEP_SAMPLE_COL])) for i in range(1, n + 1)])
+    return df
+
+
 ###### Config file and sample sheets #####
 p = Project("prjcfg.yaml")
 configfile: p.snake_config
@@ -10,12 +29,17 @@ validate(config, schema="../schemas/config.schema.yaml")
 samples = p.sheet
 if "sample" in samples.columns and PEP_SAMPLE_COL in samples.columns:
     raise Exception("Two sample identifier columns in samples sheet: {}".format(config["samples"]))
-samples = samples.rename({PEP_SAMPLE_COL: "sample"}, axis=1).set_index("sample", drop=False)
+samples = peppy_rename(samples).set_index("sample", drop=False)
 
 validate(samples, schema="../schemas/samples.schema.yaml")
 
-units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
+subann = peppy_rename(p.sample_subannotation).applymap(str)
+units = peppy_units(subann).set_index(["sample", "unit"], drop=False)
+#units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
+
+print("UNITS:\n{}".format(units))
+
 validate(units, schema="../schemas/units.schema.yaml")
 
 # contigs in reference genome
