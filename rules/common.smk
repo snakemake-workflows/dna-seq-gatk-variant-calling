@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from peppy import Project, SAMPLE_NAME_COLNAME as PEP_SAMPLE_COL
 
