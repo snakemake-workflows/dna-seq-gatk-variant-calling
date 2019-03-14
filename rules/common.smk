@@ -1,5 +1,6 @@
 import pandas as pd
 from peppy import Project, SAMPLE_NAME_COLNAME as PEP_SAMPLE_COL
+from snakemake.utils import validate
 
 ###### Config file and sample sheets #####
 p = Project("prjcfg.yaml")
