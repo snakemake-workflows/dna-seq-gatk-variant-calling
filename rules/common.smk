@@ -1,20 +1,16 @@
 import os
 import pandas as pd
-from peppy import Project, SNAKEMAKE_CONFIG_KEY as pep_to_snake, SAMPLE_NAME_COLNAME as PEPPY_SAMPLE_COLUMN
-from peppy.utils import expandpath
-from snakemake.utils import validate
-
-report: "../report/workflow.rst"
+from peppy import Project, SAMPLE_NAME_COLNAME as PEP_SAMPLE_COL
 
 ###### Config file and sample sheets #####
 p = Project("prjcfg.yaml")
-configfile: getattr(p, pep_to_snake)
+configfile: p.snake_config
 validate(config, schema="../schemas/config.schema.yaml")
 
 samples = p.sheet
-if "sample" in samples.columns and PEPPY_SAMPLE_COLUMN in samples.columns:
+if "sample" in samples.columns and PEP_SAMPLE_COL in samples.columns:
     raise Exception("Two sample identifier columns in samples sheet: {}".format(config["samples"]))
-samples = samples.rename({PEPPY_SAMPLE_COLUMN: "sample"}, axis=1).set_index("sample", drop=False)
+samples = samples.rename({PEP_SAMPLE_COL: "sample"}, axis=1).set_index("sample", drop=False)
 
 validate(samples, schema="../schemas/samples.schema.yaml")
 
@@ -23,8 +19,7 @@ units.index = units.index.set_levels([i.astype(str) for i in units.index.levels]
 validate(units, schema="../schemas/units.schema.yaml")
 
 # contigs in reference genome
-refgen = expandpath(config["ref"]["genome"])
-contigs = pd.read_table(refgen + ".fai",
+contigs = pd.read_table(config["ref"]["genome"] + ".fai",
                         header=None, usecols=[0], squeeze=True, dtype=str)
 
 
