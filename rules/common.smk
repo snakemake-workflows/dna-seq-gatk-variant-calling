@@ -4,6 +4,8 @@ from snakemake.utils import validate
 
 
 def peppy_rename(df):
+    if df is None:
+        return None
     return df.rename({PEP_SAMPLE_COL: "sample"}, axis=1)
 
 
@@ -33,12 +35,8 @@ samples = peppy_rename(samples).set_index("sample", drop=False)
 
 validate(samples, schema="../schemas/samples.schema.yaml")
 
-subann = peppy_rename(p.sample_subannotation).applymap(str)
-units = peppy_units(subann).set_index(["sample", "unit"], drop=False)
-#units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
+units = peppy_units(peppy_rename(p.sample_subannotation)).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
-
-print("UNITS:\n{}".format(units))
 
 validate(units, schema="../schemas/units.schema.yaml")
 
