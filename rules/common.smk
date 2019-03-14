@@ -4,12 +4,16 @@ from snakemake.utils import validate
 
 
 def peppy_rename(df):
+    """ Rename peppy's column for sample name identification to snakemake's. """
     if df is None:
         return None
+    if "sample" in df.columns and PEP_SAMPLE_COL in df.columns:
+        raise Exception("Multiple sample identifier columns present: {}".format(", ".join(["sample", PEP_SAMPLE_COL])))
     return df.rename({PEP_SAMPLE_COL: "sample"}, axis=1)
 
 
 def peppy_units(df):
+    """ Add unit/subsample indices to peppy a data frame.  """
     if "unit" in df.columns:
         return df
     def count_names(names):
@@ -29,8 +33,6 @@ configfile: p.snake_config
 validate(config, schema="../schemas/config.schema.yaml")
 
 samples = p.sheet
-if "sample" in samples.columns and PEP_SAMPLE_COL in samples.columns:
-    raise Exception("Two sample identifier columns in samples sheet: {}".format(config["samples"]))
 samples = peppy_rename(samples).set_index("sample", drop=False)
 
 validate(samples, schema="../schemas/samples.schema.yaml")
