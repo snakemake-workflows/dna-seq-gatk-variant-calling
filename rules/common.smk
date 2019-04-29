@@ -4,7 +4,7 @@ from snakemake.utils import validate
 
 
 ###### Config file and sample sheets #####
-p = SnakeProject("prjcfg.yaml")
+p = SnakeProject("prjcfg_native.yaml")
 configfile: p.snake_config
 validate(config, schema="../schemas/config.schema.yaml")
 
