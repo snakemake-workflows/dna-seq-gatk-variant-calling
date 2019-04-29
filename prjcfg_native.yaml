@@ -1,0 +1,6 @@
+metadata:
+  sample_annotation: samples.tsv
+  sample_subannotation: units.tsv
+
+snake_config: "config.yaml"
+
