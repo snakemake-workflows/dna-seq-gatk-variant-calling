@@ -1,5 +1,5 @@
 metadata:
-  sample_annotation: samples_peppy.tsv
+  sample_annotation: samples.tsv
   sample_subannotation: units_peppy.tsv
 
 snake_config: "config.yaml"
