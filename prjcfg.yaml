@@ -1,6 +1,5 @@
 metadata:
-  sample_annotation: samples.tsv
-  sample_subannotation: units.tsv
+  sample_table: samples.tsv
+  sample_subtable: units.tsv
 
 snake_config: "config.yaml"
-

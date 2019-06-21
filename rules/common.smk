@@ -13,7 +13,6 @@ samples = p.sample_table
 validate(samples, schema="../schemas/samples.schema.yaml")
 
 units = p.subsample_table
-units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 
 validate(units, schema="../schemas/units.schema.yaml")
 
