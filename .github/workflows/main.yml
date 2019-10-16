@@ -18,7 +18,7 @@ jobs:
         snakefile: workflow/Snakefile
         args: "--use-conda"
         stagein: |
-          conda create -q -n prep bwa gatk4 samtools
+          conda create -c bioconda -c conda-forge -q -n prep bwa gatk4 samtools
           source activate prep
           bwa index .test/data/ref/genome.chr21.fa
           samtools faidx .test/data/ref/genome.chr21.fa
