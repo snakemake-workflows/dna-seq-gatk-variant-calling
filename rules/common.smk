@@ -14,20 +14,24 @@ units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], 
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(units, schema="../schemas/units.schema.yaml")
 
-# contigs in reference genome
-contigs = pd.read_table(config["ref"]["genome"] + ".fai",
-                        header=None, usecols=[0], squeeze=True, dtype=str)
-
 
 ##### Wildcard constraints #####
 wildcard_constraints:
     vartype="snvs|indels",
     sample="|".join(samples.index),
-    unit="|".join(units["unit"]),
-    contig="|".join(contigs)
+    unit="|".join(units["unit"])
 
 
 ##### Helper functions #####
+
+def get_fai():
+    return config["ref"]["genome"] + ".fai"
+
+
+# contigs in reference genome
+def get_contigs():
+    return pd.read_table(get_fai(),
+                         header=None, usecols=[0], squeeze=True, dtype=str)
 
 def get_fastq(wildcards):
     """Get fastq files of given sample-unit."""
