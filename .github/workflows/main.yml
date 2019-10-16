@@ -19,7 +19,7 @@ jobs:
         args: "--use-conda"
         stagein: |
           conda create -q -n prep bwa gatk4 samtools
-          conda activate prep
+          source activate prep
           bwa index .test/data/ref/genome.chr21.fa
           samtools faidx .test/data/ref/genome.chr21.fa
           gatk CreateSequenceDictionary -R .test/data/ref/genome.chr21.fa
