@@ -15,7 +15,7 @@ jobs:
       uses: snakemake/snakemake-github-action@master
       with:
         directory: .test
-        snakefile: workflow/Snakefile
+        snakefile: Snakefile
         args: "--use-conda"
         stagein: |
           conda create -c bioconda -c conda-forge -q -n prep bwa gatk4 samtools
