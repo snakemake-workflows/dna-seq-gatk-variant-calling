@@ -1,0 +1,25 @@
+name: Tests
+
+on: 
+  - push
+  - pull_request
+
+jobs:
+  run-workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@2.0.0
+    - name: snakemake
+      uses: snakemake/snakemake-github-action@master
+      with:
+        directory: .test
+        snakefile: Snakefile
+        args: "--use-conda"
+        stagein: |
+          conda create -c bioconda -c conda-forge -q -n prep bwa gatk4 samtools
+          source activate prep
+          bwa index .test/data/ref/genome.chr21.fa
+          samtools faidx .test/data/ref/genome.chr21.fa
+          gatk CreateSequenceDictionary -R .test/data/ref/genome.chr21.fa
