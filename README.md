@@ -78,4 +78,4 @@ In case you have also changed or added steps, please consider contributing them 
 
 ## Testing
 
-Test cases are in the subfolder `.test`. They are automtically executed via continuous integration with Travis CI.
+Test cases are in the subfolder `.test`. They are automtically executed via continuous integration with Github actions.
