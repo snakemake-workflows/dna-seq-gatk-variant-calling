@@ -61,4 +61,4 @@ rule merge_variants:
     log:
         "logs/picard/merge-genotyped.log"
     wrapper:
-        "0.40.1/bio/picard/mergevcfs"
+        "0.40.2/bio/picard/mergevcfs"
