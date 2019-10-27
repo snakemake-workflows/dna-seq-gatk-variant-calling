@@ -16,7 +16,7 @@ jobs:
       with:
         directory: .test
         snakefile: Snakefile
-        args: "--use-conda"
+        args: "--use-conda --show-failed-logs"
         stagein: |
           conda create -c bioconda -c conda-forge -q -n prep bwa gatk4 samtools
           source activate prep
