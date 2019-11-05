@@ -54,6 +54,8 @@ rule genotype_variants:
 
 rule merge_variants:
     input:
+        # Ensure that fai is present in the cloud before calling get_contigs().
+        fai=get_fai(),
         vcfs=lambda w: expand("genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
     output:
         vcf="genotyped/all.vcf.gz"
