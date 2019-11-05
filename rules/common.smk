@@ -33,8 +33,11 @@ def get_fai():
 
 # contigs in reference genome
 def get_contigs():
-    return pd.read_table(get_fai(),
-                         header=None, usecols=[0], squeeze=True, dtype=str)
+    # Open the .fai in a way that respects eventual --default-remote-provider settings
+    # for cloud execution.
+    with workflow.inputfile(get_fai()).open() as fai:
+        return pd.read_table(fai,
+                             header=None, usecols=[0], squeeze=True, dtype=str)
 
 def get_fastq(wildcards):
     """Get fastq files of given sample-unit."""
