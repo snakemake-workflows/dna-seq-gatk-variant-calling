@@ -1,5 +1,5 @@
 metadata:
   sample_table: samples.tsv
-  sample_subtable: units.tsv
+  subsample_table: units.tsv
 
 snake_config: "config.yaml"
