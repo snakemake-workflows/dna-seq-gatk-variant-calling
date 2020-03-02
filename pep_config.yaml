@@ -1,5 +1,3 @@
-metadata:
-  sample_table: samples.tsv
-  subsample_table: units.tsv
-
+sample_table: samples.tsv
+subsample_table: units.tsv
 snake_config: "config.yaml"
