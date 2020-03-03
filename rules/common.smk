@@ -7,7 +7,7 @@ min_version("5.7.1")
 
 report: "../report/workflow.rst"
 
-p = Project(cfg="prjcfg.yaml", sample_table_index="sample",
+p = Project(cfg="pep_config.yaml", sample_table_index="sample",
             subsample_table_index=["sample", "unit"])
 
 ###### Config file and sample sheets #####
