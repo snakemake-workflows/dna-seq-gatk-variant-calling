@@ -10,4 +10,4 @@ rule snpeff:
         reference=config["ref"]["name"],
         extra="-Xmx6g"
     wrapper:
-        "0.27.1/bio/snpeff"
+        "0.51.3/bio/snpeff"
