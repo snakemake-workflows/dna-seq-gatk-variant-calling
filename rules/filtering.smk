@@ -52,7 +52,7 @@ rule recalibrate_calls:
 
 rule merge_calls:
     input:
-        vcf=expand("filtered/all.{vartype}.{filtertype}.vcf.gz",
+        vcfs=expand("filtered/all.{vartype}.{filtertype}.vcf.gz",
                    vartype=["snvs", "indels"],
                    filtertype="recalibrated"
                               if config["filtering"]["vqsr"]
