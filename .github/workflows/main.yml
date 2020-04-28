@@ -12,11 +12,11 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@2.0.0
     - name: snakemake
-      uses: snakemake/snakemake-github-action@master
+      uses: snakemake/snakemake-github-action@1.6.1
       with:
         directory: .test
         snakefile: Snakefile
-        args: "--use-conda --show-failed-logs"
+        args: "--use-conda --show-failed-logs --cores 1 --conda-cleanup-pkgs cache"
         stagein: |
           conda create -c bioconda -c conda-forge -q -n prep bwa gatk4 samtools
           source activate prep
