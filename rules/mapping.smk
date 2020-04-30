@@ -67,6 +67,7 @@ rule recalibrate_base_qualities:
         bam=get_recal_input(),
         bai=get_recal_input(bai=True),
         ref="resources/genome.fasta",
+        idx="resources/genome.dict",
         known="resources/variation.vcf.gz"
     output:
         bam=protected("recal/{sample}-{unit}.bam")

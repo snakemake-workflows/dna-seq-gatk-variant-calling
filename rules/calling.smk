@@ -14,6 +14,7 @@ rule call_variants:
     input:
         bam=get_sample_bams,
         ref="resources/genome.fasta",
+        idx="resources/genome.dict",
         known="resources/variation.vcf.gz",
         regions="called/{contig}.regions.bed" if config["processing"].get("restrict-regions") else []
     output:
