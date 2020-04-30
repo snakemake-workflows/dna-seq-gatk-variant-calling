@@ -1,5 +1,5 @@
 Variants where called following the `GATK best practices workflow`_:
-Reads were mapped onto {{ snakemake.config["ref"]["name"] }} with `BWA mem`_, and both optical and PCR duplicates were removed with Picard_, followed by base recalibration with GATK_.
+Reads were mapped onto {{ snakemake.config["ref"]["species"] }} build {{ snakemake.config["ref"]["build"] }} with `BWA mem`_, and both optical and PCR duplicates were removed with Picard_, followed by base recalibration with GATK_.
 The GATK_ HaplotypeCaller was used to call variants per-sample, including summarized evidence for non-variant sites (GVCF_ approach).
 Then, GATK_ genotyping was done in a joint way over GVCF_ files of all samples.
 {% if snakemake.config["filtering"]["vqsr"] %}

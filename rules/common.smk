@@ -104,3 +104,6 @@ def get_recal_input(bai=False):
             return []
     else:
         return f
+
+def get_snpeff_reference():
+    return "{}.{}".format(config["ref"]["species"], config["ref"]["snpeff_release"])

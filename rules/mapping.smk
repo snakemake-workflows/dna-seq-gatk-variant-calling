@@ -9,7 +9,7 @@ rule trim_reads_se:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.51.3/bio/trimmomatic/se"
+        "0.52.0/bio/trimmomatic/se"
 
 
 rule trim_reads_pe:
@@ -27,24 +27,25 @@ rule trim_reads_pe:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.51.3/bio/trimmomatic/pe"
+        "0.52.0/bio/trimmomatic/pe"
 
 
 rule map_reads:
     input:
-        reads=get_trimmed_reads
+        reads=get_trimmed_reads,
+        idx=rules.bwa_index.output
     output:
         temp("mapped/{sample}-{unit}.sorted.bam")
     log:
         "logs/bwa_mem/{sample}-{unit}.log"
     params:
-        index=config["ref"]["genome"],
+        index=lambda w, input: os.path.splitext(input.idx[0])[0],
         extra=get_read_group,
         sort="samtools",
         sort_order="coordinate"
     threads: 8
     wrapper:
-        "0.51.3/bio/bwa/mem"
+        "0.52.0/bio/bwa/mem"
 
 
 rule mark_duplicates:
@@ -58,15 +59,15 @@ rule mark_duplicates:
     params:
         config["params"]["picard"]["MarkDuplicates"]
     wrapper:
-        "0.51.3/bio/picard/markduplicates"
+        "0.52.0/bio/picard/markduplicates"
 
 
 rule recalibrate_base_qualities:
     input:
         bam=get_recal_input(),
         bai=get_recal_input(bai=True),
-        ref=config["ref"]["genome"],
-        known=config["ref"]["known-variants"]
+        ref="resources/genome.fasta",
+        known="resources/variation.vcf.gz"
     output:
         bam=protected("recal/{sample}-{unit}.bam")
     params:
@@ -74,7 +75,7 @@ rule recalibrate_base_qualities:
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
-        "0.51.3/bio/gatk/baserecalibrator"
+        "0.52.0/bio/gatk/baserecalibrator"
 
 
 rule samtools_index:
@@ -83,4 +84,4 @@ rule samtools_index:
     output:
         "{prefix}.bam.bai"
     wrapper:
-        "0.51.3/bio/samtools/index"
+        "0.52.0/bio/samtools/index"

@@ -12,6 +12,7 @@ rule all:
 
 ##### Modules #####
 
+include: "rules/ref.smk"
 include: "rules/mapping.smk"
 include: "rules/calling.smk"
 include: "rules/filtering.smk"
