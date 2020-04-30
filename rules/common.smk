@@ -27,10 +27,6 @@ wildcard_constraints:
 
 ##### Helper functions #####
 
-def get_fai():
-    return "resources/genome.fasta" + ".fai"
-
-
 # contigs in reference genome
 def get_contigs():
     return pd.read_table(get_fai(),
