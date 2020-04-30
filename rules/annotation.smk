@@ -10,4 +10,4 @@ rule snpeff:
     params:
         extra="-Xmx6g"
     wrapper:
-        "0.52.0/bio/snpeff"
+        "0.52.0/bio/snpeff/annotate"
