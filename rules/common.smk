@@ -28,7 +28,7 @@ wildcard_constraints:
 ##### Helper functions #####
 
 def get_fai():
-    return config["ref"]["genome"] + ".fai"
+    return "resources/genome.fasta" + ".fai"
 
 
 # contigs in reference genome

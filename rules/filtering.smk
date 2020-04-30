@@ -5,7 +5,7 @@ def get_vartype_arg(wildcards):
 
 rule select_calls:
     input:
-        ref=config["ref"]["genome"],
+        ref="resources/genome.fasta",
         vcf="genotyped/all.vcf.gz"
     output:
         vcf=temp("filtered/all.{vartype}.vcf.gz")
@@ -25,7 +25,7 @@ def get_filter(wildcards):
 
 rule hard_filter_calls:
     input:
-        ref=config["ref"]["genome"],
+        ref="resources/genome.fasta",
         vcf="filtered/all.{vartype}.vcf.gz"
     output:
         vcf=temp("filtered/all.{vartype}.hardfiltered.vcf.gz")
