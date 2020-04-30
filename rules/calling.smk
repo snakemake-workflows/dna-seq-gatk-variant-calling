@@ -54,7 +54,6 @@ rule genotype_variants:
 
 rule merge_variants:
     input:
-        ref="resources/genome.fasta.fai", # fai is needed to calculate aggregation over contigs below
         vcfs=lambda w: expand("genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
     output:
         vcf="genotyped/all.vcf.gz"

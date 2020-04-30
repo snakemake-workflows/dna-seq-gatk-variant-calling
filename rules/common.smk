@@ -29,7 +29,7 @@ wildcard_constraints:
 
 # contigs in reference genome
 def get_contigs():
-    return pd.read_table(get_fai(),
+    return pd.read_table(checkpoints.genome_faidx.output.open(),
                          header=None, usecols=[0], squeeze=True, dtype=str)
 
 def get_fastq(wildcards):

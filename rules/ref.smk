@@ -13,7 +13,7 @@ rule get_genome:
         "0.50.4/bio/reference/ensembl-sequence"
 
 
-rule genome_faidx:
+checkpoint genome_faidx:
     input:
         "resources/genome.fasta"
     output:
