@@ -13,8 +13,10 @@ if "restrict-regions" in config["processing"]:
 rule call_variants:
     input:
         bam=get_sample_bams,
-        ref=config["ref"]["genome"],
-        known=config["ref"]["known-variants"],
+        ref="resources/genome.fasta",
+        idx="resources/genome.dict",
+        known="resources/variation.noiupac.vcf.gz",
+        tbi="resources/variation.noiupac.vcf.gz.tbi",
         regions="called/{contig}.regions.bed" if config["processing"].get("restrict-regions") else []
     output:
         gvcf=protected("called/{sample}.{contig}.g.vcf.gz")
@@ -23,24 +25,24 @@ rule call_variants:
     params:
         extra=get_call_variants_params
     wrapper:
-        "0.27.1/bio/gatk/haplotypecaller"
+        "0.52.0/bio/gatk/haplotypecaller"
 
 
 rule combine_calls:
     input:
-        ref=config["ref"]["genome"],
+        ref="resources/genome.fasta",
         gvcfs=expand("called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index)
     output:
         gvcf="called/all.{contig}.g.vcf.gz"
     log:
         "logs/gatk/combinegvcfs.{contig}.log"
     wrapper:
-        "0.27.1/bio/gatk/combinegvcfs"
+        "0.52.0/bio/gatk/combinegvcfs"
 
 
 rule genotype_variants:
     input:
-        ref=config["ref"]["genome"],
+        ref="resources/genome.fasta",
         gvcf="called/all.{contig}.g.vcf.gz"
     output:
         vcf=temp("genotyped/all.{contig}.vcf.gz")
@@ -49,16 +51,15 @@ rule genotype_variants:
     log:
         "logs/gatk/genotypegvcfs.{contig}.log"
     wrapper:
-        "0.27.1/bio/gatk/genotypegvcfs"
+        "0.52.0/bio/gatk/genotypegvcfs"
 
 
 rule merge_variants:
     input:
-        ref=get_fai(), # fai is needed to calculate aggregation over contigs below
         vcfs=lambda w: expand("genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
     output:
         vcf="genotyped/all.vcf.gz"
     log:
         "logs/picard/merge-genotyped.log"
     wrapper:
-        "0.40.2/bio/picard/mergevcfs"
+        "0.52.0/bio/picard/mergevcfs"

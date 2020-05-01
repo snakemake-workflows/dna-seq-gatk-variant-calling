@@ -2,9 +2,10 @@ samples: samples.tsv
 units: units.tsv
 
 ref:
-  name: GRCh38.86
-  genome: data/ref/genome.chr21.fa
-  known-variants: data/ref/dbsnp.vcf.gz
+  species: saccharomyces_cerevisiae
+  release: 98
+  build: R64-1-1
+  snpeff_release: 86
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of

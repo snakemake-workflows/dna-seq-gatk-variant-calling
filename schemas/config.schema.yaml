@@ -13,13 +13,19 @@ properties:
   ref:
     type: object
     properties:
-      genome:
+      species:
         type: string
-      known-variants:
+      build:
         type: string
+      release:
+        type: integer
+      snpeff_release:
+        type: integer
     required:
-      - genome
-      - known-variants
+      - species
+      - build
+      - release
+      - snpeff_release
 
   filtering:
     type: object
