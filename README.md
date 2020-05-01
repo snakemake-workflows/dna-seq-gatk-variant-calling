@@ -1,9 +1,9 @@
 # Snakemake workflow: dna-seq-gatk-variant-calling
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥5.7.1-brightgreen.svg)](https://snakemake.readthedocs.io)
-[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://cdn.rawgit.com/snakemake-workflows/dna-seq-gatk-variant-calling/master/.test/report.html)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥5.14.0-brightgreen.svg)](https://snakemake.bitbucket.io)
+[![GitHub actions status](https://github.com/snakemake-workflows/dna-seq-varlociraptor/workflows/Tests/badge.svg?branch=master)](https://github.com/snakemake-workflows/dna-seq-varlociraptor/actions?query=branch%3Amaster+workflow%3ATests)
 
-This Snakemake pipeline implements the [GATK best-practices workflow](https://software.broadinstitute.org/gatk/best-practices/workflow?id=11145) for calling small genomic variants.
+This Snakemake pipeline implements the [GATK best-practices workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-) for calling small germline variants.
 
 ## Authors
 
@@ -22,7 +22,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 
 #### Step 2: Configure workflow
 
-Configure the workflow according to your needs via editing the file `config.yaml`.
+Configure the workflow according to your needs via editing the files `config.yaml`, `samples.tsv` and `units.tsv`.
 
 #### Step 3: Execute workflow
 
@@ -65,13 +65,24 @@ Whenever you change something, don't forget to commit the changes back to your g
     git commit -a
     git push
 
-#### Step 6: Contribute back
+#### Step 6: Obtain updates from upstream
+
+Whenever you want to synchronize your workflow copy with new developments from upstream, do the following.
+
+1. Once, register the upstream repository in your local copy: `git remote add -f upstream git@github.com:snakemake-workflows/dna-seq-gatk-variant-calling.git` or `git remote add -f upstream https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling.git` if you do not have setup ssh keys.
+2. Update the upstream version: `git fetch upstream`.
+3. Create a diff with the current version: `git diff HEAD upstream/master workflow > upstream-changes.diff`.
+4. Investigate the changes: `vim upstream-changes.diff`.
+5. Apply the modified diff via: `git apply upstream-changes.diff`.
+6. Carefully check whether you need to update the config files: `git diff HEAD upstream/master config`. If so, do it manually, and only where necessary, since you would otherwise likely overwrite your settings and samples.
+
+#### Step 7: Contribute back
 
 In case you have also changed or added steps, please consider contributing them back to the original repository:
 
 1. [Fork](https://help.github.com/en/articles/fork-a-repo) the original repo to a personal or lab account.
 2. [Clone](https://help.github.com/en/articles/cloning-a-repository) the fork to your local system, to a different place than where you ran your analysis.
-3. Copy the modified files from your analysis to the clone of your fork, e.g., `cp -r envs rules scripts path/to/fork`. Make sure to **not** accidentally copy config file contents or sample sheets.
+3. Copy the modified files from your analysis to the clone of your fork, e.g., `cp -r workflow path/to/fork`. Make sure to **not** accidentally copy config file contents or sample sheets. Instead, manually update the example config files if necessary.
 4. Commit and push your changes to your fork.
 5. Create a [pull request](https://help.github.com/en/articles/creating-a-pull-request) against the original repository.
 
