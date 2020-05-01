@@ -2,11 +2,14 @@ samples: samples.tsv
 units: units.tsv
 
 ref:
-  name: GRCh38.86
-  # Path to the reference genome, ideally as it is provided by the GATK bundle.
-  genome: data/ref/genome.chr21.fa
-  # Path to any database of known variants, ideally as it is provided by the GATK bundle.
-  known-variants: data/ref/dbsnp.vcf.gz
+  # ensembl species name
+  species: homo_sapiens
+  # ensembl release
+  release: 98
+  # genome build
+  build: GRCh38
+  # snpeff database release to use (can be out of sync with ensembl)
+  snpeff_release: 86
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of
