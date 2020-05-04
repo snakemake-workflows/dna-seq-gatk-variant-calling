@@ -10,7 +10,7 @@ rule get_genome:
         release=config["ref"]["release"]
     cache: True
     wrapper:
-        "0.50.4/bio/reference/ensembl-sequence"
+        "0.53.0/bio/reference/ensembl-sequence"
 
 
 checkpoint genome_faidx:
@@ -22,7 +22,7 @@ checkpoint genome_faidx:
         "logs/genome-faidx.log"
     cache: True
     wrapper:
-        "0.50.4/bio/samtools/faidx"
+        "0.53.0/bio/samtools/faidx"
 
 
 rule genome_dict:
@@ -53,7 +53,7 @@ rule get_known_variation:
         type="all"
     cache: True
     wrapper:
-        "0.51.1/bio/reference/ensembl-variation"
+        "0.53.0/bio/reference/ensembl-variation"
 
 
 rule remove_iupac_codes:
@@ -81,7 +81,7 @@ rule tabix_known_variants:
         "-p vcf"
     cache: True
     wrapper:
-        "0.45.1/bio/tabix"
+        "0.53.0/bio/tabix"
 
 
 rule bwa_index:
@@ -95,7 +95,7 @@ rule bwa_index:
         mem_mb=369000
     cache: True
     wrapper:
-        "0.50.4/bio/bwa/index"
+        "0.53.0/bio/bwa/index"
 
 
 rule download_snpeff_db:
@@ -108,4 +108,4 @@ rule download_snpeff_db:
         reference="{reference}"
     cache: True
     wrapper:
-        "0.52.0/bio/snpeff/download"
+        "0.53.0/bio/snpeff/download"
