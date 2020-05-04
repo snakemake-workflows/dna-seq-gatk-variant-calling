@@ -49,6 +49,7 @@ rule get_known_variation:
         "logs/get-known-variants.log"
     params:
         species=config["ref"]["species"],
+        build=config["ref"]["build"],
         release=config["ref"]["release"],
         type="all"
     cache: True
