@@ -13,5 +13,6 @@ rule annotate_variants:
         extra=config["params"]["vep"]["extra"]
     log:
         "logs/vep/annotate.log"
+    threads: 4
     wrapper:
         "0.55.1/bio/vep/annotate"
