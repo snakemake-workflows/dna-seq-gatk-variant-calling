@@ -14,4 +14,4 @@ rule annotate_variants:
     log:
         "logs/vep/annotate.log"
     wrapper:
-        "0.55.0/bio/vep/annotate"
+        "0.55.1/bio/vep/annotate"
