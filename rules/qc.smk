@@ -24,8 +24,7 @@ rule multiqc:
         expand(["qc/samtools-stats/{u.sample}-{u.unit}.txt",
                 "qc/fastqc/{u.sample}-{u.unit}.zip",
                 "qc/dedup/{u.sample}-{u.unit}.metrics.txt"],
-               u=units.itertuples()),
-        "snpeff/all.csv"
+               u=units.itertuples())
     output:
         report("qc/multiqc.html", caption="../report/multiqc.rst", category="Quality control")
     log:

@@ -54,7 +54,7 @@ rule get_known_variation:
         type="all"
     cache: True
     wrapper:
-        "0.53.0/bio/reference/ensembl-variation"
+        "0.55.1/bio/reference/ensembl-variation"
 
 
 rule remove_iupac_codes:
@@ -99,14 +99,23 @@ rule bwa_index:
         "0.53.0/bio/bwa/index"
 
 
-rule download_snpeff_db:
+rule get_vep_cache:
     output:
-        # wildcard {reference} may be anything listed in `snpeff databases`
-        directory("resources/snpeff/{reference}")
-    log:
-        "logs/snpeff/download/{reference}.log"
+        directory("resources/vep/cache")
     params:
-        reference="{reference}"
-    cache: True
+        species=config["ref"]["species"],
+        build=config["ref"]["build"],
+        release=config["ref"]["release"]
+    log:
+        "logs/vep/cache.log"
     wrapper:
-        "0.53.0/bio/snpeff/download"
+        "0.55.0/bio/vep/cache"
+
+
+rule get_vep_plugins:
+    output:
+        directory("resources/vep/plugins")
+    params:
+        release=config["ref"]["release"]
+    wrapper:
+        "0.55.0/bio/vep/plugins"
