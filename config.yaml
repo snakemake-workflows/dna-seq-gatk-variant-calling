@@ -8,8 +8,6 @@ ref:
   release: 98
   # genome build
   build: GRCh38
-  # snpeff database release to use (can be out of sync with ensembl)
-  snpeff_release: 86
 
 filtering:
   # Set to true in order to apply machine learning based recalibration of

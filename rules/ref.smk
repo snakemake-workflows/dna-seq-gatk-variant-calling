@@ -54,7 +54,7 @@ rule get_known_variation:
         type="all"
     cache: True
     wrapper:
-        "0.55.1/bio/reference/ensembl-variation"
+        "0.57.0/bio/reference/ensembl-variation"
 
 
 rule remove_iupac_codes:
