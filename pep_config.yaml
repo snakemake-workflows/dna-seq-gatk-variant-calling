@@ -1,3 +1,4 @@
+pep_version: 2.0.0
 sample_table: samples.tsv
 subsample_table: units.tsv
 snake_config: "config.yaml"
