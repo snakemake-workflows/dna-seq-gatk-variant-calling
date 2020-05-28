@@ -15,4 +15,4 @@ rule annotate_variants:
         "logs/vep/annotate.log"
     threads: 4
     wrapper:
-        "0.55.1/bio/vep/annotate"
+        "0.59.0/bio/vep/annotate"
