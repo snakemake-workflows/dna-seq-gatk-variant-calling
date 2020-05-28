@@ -54,7 +54,7 @@ rule get_known_variation:
         type="all"
     cache: True
     wrapper:
-        "0.57.0/bio/reference/ensembl-variation"
+        "0.59.0/bio/reference/ensembl-variation"
 
 
 rule remove_iupac_codes:
@@ -109,7 +109,7 @@ rule get_vep_cache:
     log:
         "logs/vep/cache.log"
     wrapper:
-        "0.55.0/bio/vep/cache"
+        "0.59.0/bio/vep/cache"
 
 
 rule get_vep_plugins:
@@ -118,4 +118,4 @@ rule get_vep_plugins:
     params:
         release=config["ref"]["release"]
     wrapper:
-        "0.55.0/bio/vep/plugins"
+        "0.59.0/bio/vep/plugins"
