@@ -9,7 +9,7 @@ rule trim_reads_se:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.59.0/bio/trimmomatic/se"
+        "0.59.2/bio/trimmomatic/se"
 
 
 rule trim_reads_pe:
@@ -27,7 +27,7 @@ rule trim_reads_pe:
     log:
         "logs/trimmomatic/{sample}-{unit}.log"
     wrapper:
-        "0.59.0/bio/trimmomatic/pe"
+        "0.59.2/bio/trimmomatic/pe"
 
 
 rule map_reads:
@@ -45,7 +45,7 @@ rule map_reads:
         sort_order="coordinate"
     threads: 8
     wrapper:
-        "0.59.0/bio/bwa/mem"
+        "0.59.2/bio/bwa/mem"
 
 
 rule mark_duplicates:
@@ -59,7 +59,7 @@ rule mark_duplicates:
     params:
         config["params"]["picard"]["MarkDuplicates"]
     wrapper:
-        "0.59.0/bio/picard/markduplicates"
+        "0.59.2/bio/picard/markduplicates"
 
 
 rule recalibrate_base_qualities:
@@ -77,7 +77,7 @@ rule recalibrate_base_qualities:
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log"
     wrapper:
-        "0.59.0/bio/gatk/baserecalibrator"
+        "0.59.2/bio/gatk/baserecalibrator"
 
 
 rule samtools_index:
@@ -86,4 +86,4 @@ rule samtools_index:
     output:
         "{prefix}.bam.bai"
     wrapper:
-        "0.59.0/bio/samtools/index"
+        "0.59.2/bio/samtools/index"
