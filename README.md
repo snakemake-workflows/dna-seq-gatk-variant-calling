@@ -26,6 +26,11 @@ Configure the workflow according to your needs via editing the files `config.yam
 
 #### Step 3: Execute workflow
 
+This workflow will automatically download reference genomes and annotation.
+In order to save time and space, consider to use [between workflow caching](https://snakemake.readthedocs.io/en/stable/executing/caching.html) by adding the flag `--cache` to any of the commands below.
+The workflow already defines which rules are eligible for caching, so no further arguments are required.
+When caching is enabled, Snakemake will automatically share those steps between different instances of this workflow.
+
 Test your configuration by performing a dry-run via
 
     snakemake --use-conda -n
@@ -47,7 +52,8 @@ If you not only want to fix the software stack but also the underlying OS, use
     snakemake --use-conda --use-singularity
 
 in combination with any of the modes above.
-See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
+
+See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details (e.g. cloud execution).
 
 #### Step 4: Investigate results
 
