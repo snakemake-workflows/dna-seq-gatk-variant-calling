@@ -1,3 +1,6 @@
+import sys
+sys.stderr = open(snakemake.log[0], "w")
+
 import common
 import matplotlib.pyplot as plt
 import pandas as pd

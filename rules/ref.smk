@@ -115,6 +115,8 @@ rule get_vep_cache:
 rule get_vep_plugins:
     output:
         directory("resources/vep/plugins"),
+    log:
+        "logs/vep/plugins.log"
     params:
         release=config["ref"]["release"],
     wrapper:

@@ -85,5 +85,7 @@ rule samtools_index:
         "{prefix}.bam",
     output:
         "{prefix}.bam.bai",
+    log:
+        "logs/samtools/index/{prefix}.log"
     wrapper:
         "0.59.2/bio/samtools/index"

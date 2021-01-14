@@ -1,9 +1,3 @@
-def get_vartype_arg(wildcards):
-    return "--select-type-to-include {}".format(
-        "SNP" if wildcards.vartype == "snvs" else "INDEL"
-    )
-
-
 rule select_calls:
     input:
         ref="resources/genome.fasta",
@@ -16,10 +10,6 @@ rule select_calls:
         "logs/gatk/selectvariants/{vartype}.log",
     wrapper:
         "0.59.0/bio/gatk/selectvariants"
-
-
-def get_filter(wildcards):
-    return {"snv-hard-filter": config["filtering"]["hard"][wildcards.vartype]}
 
 
 rule hard_filter_calls:

@@ -4,6 +4,8 @@ rule fastqc:
     output:
         html="qc/fastqc/{sample}-{unit}.html",
         zip="qc/fastqc/{sample}-{unit}.zip",
+    log:
+        "logs/fastqc/{sample}-{unit}.log"
     wrapper:
         "0.59.2/bio/fastqc"
 

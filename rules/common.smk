@@ -124,3 +124,13 @@ def get_recal_input(bai=False):
 
 def get_snpeff_reference():
     return "{}.{}".format(config["ref"]["build"], config["ref"]["snpeff_release"])
+
+
+def get_vartype_arg(wildcards):
+    return "--select-type-to-include {}".format(
+        "SNP" if wildcards.vartype == "snvs" else "INDEL"
+    )
+
+
+def get_filter(wildcards):
+    return {"snv-hard-filter": config["filtering"]["hard"][wildcards.vartype]}
