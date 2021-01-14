@@ -1,65 +1,66 @@
 def get_vartype_arg(wildcards):
     return "--select-type-to-include {}".format(
-        "SNP" if wildcards.vartype == "snvs" else "INDEL")
+        "SNP" if wildcards.vartype == "snvs" else "INDEL"
+    )
 
 
 rule select_calls:
     input:
         ref="resources/genome.fasta",
-        vcf="genotyped/all.vcf.gz"
+        vcf="genotyped/all.vcf.gz",
     output:
-        vcf=temp("filtered/all.{vartype}.vcf.gz")
+        vcf=temp("filtered/all.{vartype}.vcf.gz"),
     params:
-        extra=get_vartype_arg
+        extra=get_vartype_arg,
     log:
-        "logs/gatk/selectvariants/{vartype}.log"
+        "logs/gatk/selectvariants/{vartype}.log",
     wrapper:
         "0.59.0/bio/gatk/selectvariants"
 
 
 def get_filter(wildcards):
-    return {
-        "snv-hard-filter":
-        config["filtering"]["hard"][wildcards.vartype]}
+    return {"snv-hard-filter": config["filtering"]["hard"][wildcards.vartype]}
 
 
 rule hard_filter_calls:
     input:
         ref="resources/genome.fasta",
-        vcf="filtered/all.{vartype}.vcf.gz"
+        vcf="filtered/all.{vartype}.vcf.gz",
     output:
-        vcf=temp("filtered/all.{vartype}.hardfiltered.vcf.gz")
+        vcf=temp("filtered/all.{vartype}.hardfiltered.vcf.gz"),
     params:
-        filters=get_filter
+        filters=get_filter,
     log:
-        "logs/gatk/variantfiltration/{vartype}.log"
+        "logs/gatk/variantfiltration/{vartype}.log",
     wrapper:
         "0.59.2/bio/gatk/variantfiltration"
 
 
 rule recalibrate_calls:
     input:
-        vcf="filtered/all.{vartype}.vcf.gz"
+        vcf="filtered/all.{vartype}.vcf.gz",
     output:
-        vcf=temp("filtered/all.{vartype}.recalibrated.vcf.gz")
+        vcf=temp("filtered/all.{vartype}.recalibrated.vcf.gz"),
     params:
-        extra=config["params"]["gatk"]["VariantRecalibrator"]
+        extra=config["params"]["gatk"]["VariantRecalibrator"],
     log:
-        "logs/gatk/variantrecalibrator/{vartype}.log"
+        "logs/gatk/variantrecalibrator/{vartype}.log",
     wrapper:
         "0.59.2/bio/gatk/variantrecalibrator"
 
 
 rule merge_calls:
     input:
-        vcfs=expand("filtered/all.{vartype}.{filtertype}.vcf.gz",
-                   vartype=["snvs", "indels"],
-                   filtertype="recalibrated"
-                              if config["filtering"]["vqsr"]
-                              else "hardfiltered")
+        vcfs=expand(
+            "filtered/all.{vartype}.{filtertype}.vcf.gz",
+            vartype=["snvs", "indels"],
+            filtertype="recalibrated"
+            if config["filtering"]["vqsr"]
+            else "hardfiltered",
+        ),
     output:
-        vcf="filtered/all.vcf.gz"
+        vcf="filtered/all.vcf.gz",
     log:
-        "logs/picard/merge-filtered.log"
+        "logs/picard/merge-filtered.log",
     wrapper:
         "0.59.2/bio/picard/mergevcfs"
