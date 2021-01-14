@@ -4,7 +4,7 @@ rule vcf_to_tsv:
     output:
         report("tables/calls.tsv.gz", caption="../report/calls.rst", category="Calls"),
     log:
-        "logs/vcf-to-tsv.log"
+        "logs/vcf-to-tsv.log",
     conda:
         "../envs/rbt.yaml"
     shell:
@@ -24,7 +24,7 @@ rule plot_stats:
             "plots/allele-freqs.svg", caption="../report/freqs.rst", category="Plots"
         ),
     log:
-        "logs/plot-stats.log"
+        "logs/plot-stats.log",
     conda:
         "../envs/stats.yaml"
     script:
