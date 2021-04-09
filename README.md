@@ -45,7 +45,7 @@ while replacing `<release>` with the [latest stable release](https://github.com/
 See [here](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#using-and-combining-pre-exising-workflows) for advanced options.
 
 At first sight, it might seem cumbersome that this snippet has to be inserted into an empty new workflow.
-However, this wayy has several advantages over just running this workflow from a local copy of this repo:
+However, this way has several advantages over just running this workflow from a local copy of this repo:
 
 1. You can easily update to a newer release by just modifying the URL.
 2. You can easily extend the workflow with further steps by simply adding additional rules.
