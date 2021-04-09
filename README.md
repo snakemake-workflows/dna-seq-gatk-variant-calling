@@ -3,7 +3,7 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.1.0-brightgreen.svg)](https://snakemake.github.io)
 [![GitHub actions status](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/workflows/Tests/badge.svg?branch=main)](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/actions?query=branch%3Amain+workflow%3ATests)
 
-**Add pipeline description here.**
+This Snakemake pipeline implements the [GATK best-practices workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-) for calling small germline variants.
 
 ## Usage
 
@@ -27,13 +27,14 @@ By that
 
 #### Case a: Use in a new project
 
-1. Create a project folder on the system where you want to execute the worklow.
-2. Enter the folder.
-3. Execute
+1. Create a project folder on the system where you want to execute the worklow and enter it.
+2. Execute
    ```
    copier gh:snakemake-workflows/dna-seq-gatk-variant-calling .
    ```
-4. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
+   This will generate a file `workflow/Snakefile` with the module usage declaration and a template configuration unter `config`.
+3. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
+4. Modify the configuration according to your needs.
 
 #### Case b: Use in an existing project
 
@@ -42,9 +43,10 @@ By that
    ```
    copier gh:snakemake-workflows/dna-seq-gatk-variant-calling .
    ```
-3. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
-4. Copy the contents of the `config` folder into your existing project (e.g. integrate the `config.yaml` contents into a subsection of your project configuration).
+3. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases).
+4. Copy the contents of the `config` folder into your existing project (e.g. integrate the `config.yaml` contents into a subsection of your project configuration) and modify them according to your needs.
 5. Move the content of `workflow/Snakefile` into the main Snakefile of your existing project. Take case that rules don't clash with other rules in your project and make sure to pass the relevant parts of the configuration, see the [module documentation](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#snakefiles-modules) for details.
+6. Modify the configuration according to your needs.
 
 ### Step 2: Consider using git-based version control
 
