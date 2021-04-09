@@ -1,75 +1,57 @@
 # Snakemake workflow: dna-seq-gatk-variant-calling
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.1.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/workflows/Tests/badge.svg?branch=master)](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/actions?query=branch%3Amaster+workflow%3ATests)
+[![GitHub actions status](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/workflows/Tests/badge.svg?branch=main)](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/actions?query=branch%3Amain+workflow%3ATests)
 
-This Snakemake pipeline implements the [GATK best-practices workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-) for calling small germline variants.
-
-## Authors
-
-* Johannes Köster (https://koesterlab.github.io)
-
+**Add pipeline description here.**
 
 ## Usage
 
 In any case, if you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and its DOI (see above).
 
-### Step 0: Install Snakemake
+### Requirements
 
-In case you don't yet have Snakemake installed, make sure to install it, together with the mamba package manager, as outlined in the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+* [Mamba package manager](https://github.com/conda-forge/miniforge#mambaforge)
+* [Copier template engine](https://copier.readthedocs.io)
+* [Snakemake workflow management system](https://snakemake.github.io)
 
-### Step 1: Prepare a new Snakemake workflow
+### Step 1: Declare this workflow as a module
 
-In case you want to use this workflow from an already existing Snakemake workflow, you can skip this step.
-
-1. Create a project folder on the system where you want to execute the worklow.
-2. Enter the folder.
-3. Create a new empty *Snakefile* `workflow/Snakefile`.
-
-### Step 2: Declare workflow usage
-
-Enter the following into your *Snakefile*:
-
-```python
-configfile: "config/config.yaml"
-
-module dna_seq_gatk:
-    snakefile:
-        "https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/raw/<release>/Snakefile"
-    config:
-        config
-
-use rule * from dna_seq_gatk
-```
-while replacing `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases).
-See [here](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#using-and-combining-pre-exising-workflows) for advanced options.
-
-At first sight, it might seem cumbersome that this snippet has to be inserted into an empty new workflow.
-However, this way has several advantages over just running this workflow from a local copy of this repo:
+Using this workflow works best by declaring it as a module.
+By that
 
 1. You can easily update to a newer release by just modifying the URL.
 2. You can easily extend the workflow with further steps by simply adding additional rules.
 3. You can [modifying the existing rules](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#snakefiles-modules) if needed.
 4. You can easily add other published workflows to your analysis in the same way.
 
-All of this happens while transparently documenting your modifications directly in the *Snakefile*.
+#### Case a: Use in a new project
 
-### Step 3: Configure workflow
-
-1. Obtain the template configuration from this repository, either by copy pasting into your existing configuration, or by downloading via
-   ```bash
-   mkdir -p config
-   wget -P config https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/raw/<release>/{config.yaml,samples.tsv,units.tsv}
+1. Create a project folder on the system where you want to execute the worklow.
+2. Enter the folder.
+3. Execute
    ```
-   while replacing `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases).
-2. Modify the configuration according to your needs.
+   copier gh:snakemake-workflows/dna-seq-gatk-variant-calling .
+   ```
+4. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
 
-### Step 4: Consider using git-based version control
+#### Case b: Use in an existing project
+
+1. Create a temporary folder and enter it.
+2. Execute
+   ```
+   copier gh:snakemake-workflows/dna-seq-gatk-variant-calling .
+   ```
+3. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
+4. Copy the contents of the `config` folder into your existing project (e.g. integrate the `config.yaml` contents into a subsection of your project configuration).
+5. Move the content of `workflow/Snakefile` into the main Snakefile of your existing project. Take case that rules don't clash with other rules in your project and make sure to pass the relevant parts of the configuration, see the [module documentation](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#snakefiles-modules) for details.
+
+### Step 2: Consider using git-based version control
 
 Consider to use git for recording the current and future state of the source files you have just created.
 For using Github, details can be found [here](https://docs.github.com/en/github/importing-your-projects-to-github/adding-an-existing-project-to-github-using-the-command-line). If you do not want to use git, skip this step.
 
-### Step 5: Execute workflow
+### Step 3: Execute workflow
 
 This workflow will automatically download reference genomes and annotation.
 In order to save time and space, consider to use [between workflow caching](https://snakemake.readthedocs.io/en/stable/executing/caching.html) by adding the flag `--cache` to any of the commands below.
@@ -86,15 +68,14 @@ Execute the workflow locally via
 
 using `$N` cores. For further options, including cluster or cloud execution, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executing/cli.html).
 
-### Step 6: Investigate results
+### Step 4: Investigate results
 
 After successful execution, you can create a self-contained interactive HTML report with all results via:
 
     snakemake --report report.zip
 
 This report can, e.g., be forwarded to your collaborators.
-An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/dna-seq-gatk-variant-calling/master/.test/report.html).
 
-### Step 7: Extend or modify this workflow
+### Step 5: Extend or modify this workflow
 
 If any changes or extensions you made in your local analysis generically applicable, you are very welcome to submit them to this repository as a [pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).

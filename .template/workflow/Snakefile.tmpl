@@ -1,0 +1,10 @@
+configfile: "config/config.yaml"
+
+module dna_seq:
+    snakefile:
+        # TODO replace <release> with desired release
+        "https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/raw/<release>/Snakefile"
+    config:
+        config
+
+use rule * from dna_seq
