@@ -80,4 +80,4 @@ This report can, e.g., be forwarded to your collaborators.
 
 ### Step 5: Extend or modify this workflow
 
-If any changes or extensions you made in your local analysis generically applicable, you are very welcome to submit them to this repository as a [pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
+If any changes or extensions you made in your local analysis are generically applicable, you are very welcome to submit them to this repository as a [pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests).
