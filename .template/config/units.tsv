@@ -1,0 +1,4 @@
+sample	unit	platform	fq1	fq2
+A	1	ILLUMINA	data/reads/a.chr21.1.fq	data/reads/a.chr21.2.fq
+B	1	ILLUMINA	data/reads/b.chr21.1.fq	data/reads/b.chr21.2.fq
+B	2	ILLUMINA	data/reads/b.chr21.1.fq	
