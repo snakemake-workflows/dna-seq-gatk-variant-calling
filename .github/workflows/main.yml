@@ -14,10 +14,10 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@2.0.0
     - name: Formatting
-      uses: github/super-linter@v3
+      uses: github/super-linter@v3.15.5
       env:
         VALIDATE_ALL_CODEBASE: false
-        DEFAULT_BRANCH: master
+        DEFAULT_BRANCH: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VALIDATE_SNAKEMAKE_SNAKEFMT: true
 
