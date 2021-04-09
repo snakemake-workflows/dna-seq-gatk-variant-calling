@@ -1,6 +1,6 @@
 # Snakemake workflow: dna-seq-gatk-variant-calling
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4677630.svg)](https://doi.org/10.5281/zenodo.4677630)
+[![DOI](https://zenodo.org/badge/139045164.svg)](https://zenodo.org/badge/latestdoi/139045164)
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.1.0-brightgreen.svg)](https://snakemake.github.io)
 [![GitHub actions status](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/workflows/Tests/badge.svg?branch=main)](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/actions?query=branch%3Amain+workflow%3ATests)
 
