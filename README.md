@@ -33,7 +33,7 @@ By that
    ```
    copier gh:snakemake-workflows/dna-seq-gatk-variant-calling .
    ```
-   This will generate a file `workflow/Snakefile` with the module usage declaration and a template configuration unter `config`.
+   This will generate a file `workflow/Snakefile` with the module usage declaration and a template configuration under `config`.
 3. Open `workflow/Snakefile` and replace `<release>` with the [latest stable release](https://github.com/snakemake-workflows/dna-seq-gatk-variant-calling/releases). 
 4. Modify the configuration according to your needs.
 
