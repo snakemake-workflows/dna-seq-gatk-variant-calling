@@ -14,7 +14,7 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@2.0.0
     - name: Formatting
-      uses: github/super-linter@v3.15.5
+      uses: github/super-linter@v3.16.1
       env:
         VALIDATE_ALL_CODEBASE: false
         DEFAULT_BRANCH: main
@@ -28,10 +28,10 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@2.0.0
     - name: Linting
-      uses: snakemake/snakemake-github-action@v1.14.0
+      uses: snakemake/snakemake-github-action@v1.17.0
       with:
         directory: '.test'
-        snakefile: 'Snakefile'
+        snakefile: workflow/Snakefile
         args: '--lint'
 
   run-workflow:
@@ -45,9 +45,9 @@ jobs:
       uses: textbook/git-checkout-submodule-action@2.0.0
     
     - name: snakemake
-      uses: snakemake/snakemake-github-action@v1.14.0
+      uses: snakemake/snakemake-github-action@v1.17.0
       with:
         directory: .test
-        snakefile: Snakefile
+        snakefile: workflow/Snakefile
         args: "--use-conda --show-failed-logs --cores 1 --conda-cleanup-pkgs cache"
 
