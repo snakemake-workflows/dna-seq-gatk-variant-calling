@@ -67,17 +67,37 @@ rule recalibrate_base_qualities:
         bam=get_recal_input(),
         bai=get_recal_input(bai=True),
         ref="resources/genome.fasta",
-        idx="resources/genome.dict",
+        dict="resources/genome.dict",
         known="resources/variation.noiupac.vcf.gz",
-        tbi="resources/variation.noiupac.vcf.gz.tbi",
     output:
-        bam=protected("results/recal/{sample}-{unit}.bam"),
-    params:
-        extra=get_regions_param() + config["params"]["gatk"]["BaseRecalibrator"],
+        recal_table="results/recal/{sample}-{unit}.grp",
     log:
         "logs/gatk/bqsr/{sample}-{unit}.log",
+    params:
+        extra=get_regions_param() + config["params"]["gatk"]["BaseRecalibrator"],
+    resources:
+        mem_mb=1024,
     wrapper:
         "0.74.0/bio/gatk/baserecalibrator"
+
+
+rule apply_base_quality_recalibration:
+    input:
+        bam=get_recal_input(),
+        bai=get_recal_input(bai=True),
+        ref="resources/genome.fasta",
+        dict="resources/genome.dict",
+        recal_table="results/recal/{sample}-{unit}.grp"
+    output:
+        bam=protected("results/recal/{sample}-{unit}.bam")
+    log:
+        "logs/gatk/apply-bqsr/{sample}-{unit}.log",
+    params:
+        extra=get_regions_param(),
+    resources:
+        mem_mb=1024
+    wrapper:
+        "0.74.0/bio/gatk/applybqsr"
 
 
 rule samtools_index:
