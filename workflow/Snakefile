@@ -6,10 +6,10 @@ include: "rules/common.smk"
 
 rule all:
     input:
-        "annotated/all.vcf.gz",
-        "qc/multiqc.html",
-        "plots/depths.svg",
-        "plots/allele-freqs.svg",
+        "results/annotated/all.vcf.gz",
+        "results/qc/multiqc.html",
+        "results/plots/depths.svg",
+        "results/plots/allele-freqs.svg",
 
 
 ##### Modules #####

@@ -4,7 +4,7 @@ if "restrict-regions" in config["processing"]:
         input:
             config["processing"]["restrict-regions"],
         output:
-            "called/{contig}.regions.bed",
+            "results/called/{contig}.regions.bed",
         conda:
             "../envs/bedops.yaml"
         shell:
@@ -14,17 +14,17 @@ if "restrict-regions" in config["processing"]:
 rule call_variants:
     input:
         bam=get_sample_bams,
-        ref="resources/genome.fasta",
-        idx="resources/genome.dict",
-        known="resources/variation.noiupac.vcf.gz",
-        tbi="resources/variation.noiupac.vcf.gz.tbi",
+        ref="results/resources/genome.fasta",
+        idx="results/resources/genome.dict",
+        known="results/resources/variation.noiupac.vcf.gz",
+        tbi="results/resources/variation.noiupac.vcf.gz.tbi",
         regions=(
-            "called/{contig}.regions.bed"
+            "results/called/{contig}.regions.bed"
             if config["processing"].get("restrict-regions")
             else []
         ),
     output:
-        gvcf=protected("called/{sample}.{contig}.g.vcf.gz"),
+        gvcf=protected("results/called/{sample}.{contig}.g.vcf.gz"),
     log:
         "logs/gatk/haplotypecaller/{sample}.{contig}.log",
     params:
@@ -35,10 +35,10 @@ rule call_variants:
 
 rule combine_calls:
     input:
-        ref="resources/genome.fasta",
-        gvcfs=expand("called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index),
+        ref="results/resources/genome.fasta",
+        gvcfs=expand("results/called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index),
     output:
-        gvcf="called/all.{contig}.g.vcf.gz",
+        gvcf="results/called/all.{contig}.g.vcf.gz",
     log:
         "logs/gatk/combinegvcfs.{contig}.log",
     wrapper:
@@ -47,10 +47,10 @@ rule combine_calls:
 
 rule genotype_variants:
     input:
-        ref="resources/genome.fasta",
-        gvcf="called/all.{contig}.g.vcf.gz",
+        ref="results/resources/genome.fasta",
+        gvcf="results/called/all.{contig}.g.vcf.gz",
     output:
-        vcf=temp("genotyped/all.{contig}.vcf.gz"),
+        vcf=temp("results/genotyped/all.{contig}.vcf.gz"),
     params:
         extra=config["params"]["gatk"]["GenotypeGVCFs"],
     log:
@@ -61,9 +61,9 @@ rule genotype_variants:
 
 rule merge_variants:
     input:
-        vcfs=lambda w: expand("genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
+        vcfs=lambda w: expand("results/genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
     output:
-        vcf="genotyped/all.vcf.gz",
+        vcf="results/genotyped/all.vcf.gz",
     log:
         "logs/picard/merge-genotyped.log",
     wrapper:

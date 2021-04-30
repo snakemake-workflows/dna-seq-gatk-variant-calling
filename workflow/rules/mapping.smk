@@ -2,7 +2,7 @@ rule trim_reads_se:
     input:
         unpack(get_fastq),
     output:
-        temp("trimmed/{sample}-{unit}.fastq.gz"),
+        temp("results/trimmed/{sample}-{unit}.fastq.gz"),
     params:
         **config["params"]["trimmomatic"]["se"],
         extra="",
@@ -16,11 +16,11 @@ rule trim_reads_pe:
     input:
         unpack(get_fastq),
     output:
-        r1=temp("trimmed/{sample}-{unit}.1.fastq.gz"),
-        r2=temp("trimmed/{sample}-{unit}.2.fastq.gz"),
-        r1_unpaired=temp("trimmed/{sample}-{unit}.1.unpaired.fastq.gz"),
-        r2_unpaired=temp("trimmed/{sample}-{unit}.2.unpaired.fastq.gz"),
-        trimlog="trimmed/{sample}-{unit}.trimlog.txt",
+        r1=temp("results/trimmed/{sample}-{unit}.1.fastq.gz"),
+        r2=temp("results/trimmed/{sample}-{unit}.2.fastq.gz"),
+        r1_unpaired=temp("results/trimmed/{sample}-{unit}.1.unpaired.fastq.gz"),
+        r2_unpaired=temp("results/trimmed/{sample}-{unit}.2.unpaired.fastq.gz"),
+        trimlog="results/trimmed/{sample}-{unit}.trimlog.txt",
     params:
         **config["params"]["trimmomatic"]["pe"],
         extra=lambda w, output: "-trimlog {}".format(output.trimlog),
@@ -35,7 +35,7 @@ rule map_reads:
         reads=get_trimmed_reads,
         idx=rules.bwa_index.output,
     output:
-        temp("mapped/{sample}-{unit}.sorted.bam"),
+        temp("results/mapped/{sample}-{unit}.sorted.bam"),
     log:
         "logs/bwa_mem/{sample}-{unit}.log",
     params:
@@ -50,10 +50,10 @@ rule map_reads:
 
 rule mark_duplicates:
     input:
-        "mapped/{sample}-{unit}.sorted.bam",
+        "results/mapped/{sample}-{unit}.sorted.bam",
     output:
-        bam=temp("dedup/{sample}-{unit}.bam"),
-        metrics="qc/dedup/{sample}-{unit}.metrics.txt",
+        bam=temp("results/dedup/{sample}-{unit}.bam"),
+        metrics="results/qc/dedup/{sample}-{unit}.metrics.txt",
     log:
         "logs/picard/dedup/{sample}-{unit}.log",
     params:
@@ -71,7 +71,7 @@ rule recalibrate_base_qualities:
         known="resources/variation.noiupac.vcf.gz",
         tbi="resources/variation.noiupac.vcf.gz.tbi",
     output:
-        bam=protected("recal/{sample}-{unit}.bam"),
+        bam=protected("results/recal/{sample}-{unit}.bam"),
     params:
         extra=get_regions_param() + config["params"]["gatk"]["BaseRecalibrator"],
     log:

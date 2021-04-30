@@ -2,8 +2,8 @@ rule fastqc:
     input:
         unpack(get_fastq),
     output:
-        html="qc/fastqc/{sample}-{unit}.html",
-        zip="qc/fastqc/{sample}-{unit}.zip",
+        html="results/qc/fastqc/{sample}-{unit}.html",
+        zip="results/qc/fastqc/{sample}-{unit}.zip",
     log:
         "logs/fastqc/{sample}-{unit}.log",
     wrapper:
@@ -12,9 +12,9 @@ rule fastqc:
 
 rule samtools_stats:
     input:
-        "recal/{sample}-{unit}.bam",
+        "results/recal/{sample}-{unit}.bam",
     output:
-        "qc/samtools-stats/{sample}-{unit}.txt",
+        "results/qc/samtools-stats/{sample}-{unit}.txt",
     log:
         "logs/samtools-stats/{sample}-{unit}.log",
     wrapper:
@@ -25,15 +25,15 @@ rule multiqc:
     input:
         expand(
             [
-                "qc/samtools-stats/{u.sample}-{u.unit}.txt",
-                "qc/fastqc/{u.sample}-{u.unit}.zip",
-                "qc/dedup/{u.sample}-{u.unit}.metrics.txt",
+                "results/qc/samtools-stats/{u.sample}-{u.unit}.txt",
+                "results/qc/fastqc/{u.sample}-{u.unit}.zip",
+                "results/qc/dedup/{u.sample}-{u.unit}.metrics.txt",
             ],
             u=units.itertuples(),
         ),
     output:
         report(
-            "qc/multiqc.html",
+            "results/qc/multiqc.html",
             caption="../report/multiqc.rst",
             category="Quality control",
         ),

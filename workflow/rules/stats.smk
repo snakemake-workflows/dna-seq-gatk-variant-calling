@@ -1,8 +1,8 @@
 rule vcf_to_tsv:
     input:
-        "annotated/all.vcf.gz",
+        "results/annotated/all.vcf.gz",
     output:
-        report("tables/calls.tsv.gz", caption="../report/calls.rst", category="Calls"),
+        report("results/tables/calls.tsv.gz", caption="../report/calls.rst", category="Calls"),
     log:
         "logs/vcf-to-tsv.log",
     conda:
@@ -15,13 +15,13 @@ rule vcf_to_tsv:
 
 rule plot_stats:
     input:
-        "tables/calls.tsv.gz",
+        "results/tables/calls.tsv.gz",
     output:
         depths=report(
-            "plots/depths.svg", caption="../report/depths.rst", category="Plots"
+            "results/plots/depths.svg", caption="../report/depths.rst", category="Plots"
         ),
         freqs=report(
-            "plots/allele-freqs.svg", caption="../report/freqs.rst", category="Plots"
+            "results/plots/allele-freqs.svg", caption="../report/freqs.rst", category="Plots"
         ),
     log:
         "logs/plot-stats.log",
