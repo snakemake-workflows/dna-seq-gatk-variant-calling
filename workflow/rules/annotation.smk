@@ -5,10 +5,14 @@ rule annotate_variants:
         plugins="resources/vep/plugins",
     output:
         calls=report(
-            "results/annotated/all.vcf.gz", caption="../report/vcf.rst", category="Calls"
+            "results/annotated/all.vcf.gz",
+            caption="../report/vcf.rst",
+            category="Calls",
         ),
         stats=report(
-            "results/stats/all.stats.html", caption="../report/stats.rst", category="Calls"
+            "results/stats/all.stats.html",
+            caption="../report/stats.rst",
+            category="Calls",
         ),
     params:
         # Pass a list of plugins to use, see https://www.ensembl.org/info/docs/tools/vep/script/vep_plugins.html
