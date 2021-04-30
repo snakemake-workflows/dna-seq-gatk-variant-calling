@@ -14,10 +14,10 @@ if "restrict-regions" in config["processing"]:
 rule call_variants:
     input:
         bam=get_sample_bams,
-        ref="results/resources/genome.fasta",
-        idx="results/resources/genome.dict",
-        known="results/resources/variation.noiupac.vcf.gz",
-        tbi="results/resources/variation.noiupac.vcf.gz.tbi",
+        ref="resources/genome.fasta",
+        idx="resources/genome.dict",
+        known="resources/variation.noiupac.vcf.gz",
+        tbi="resources/variation.noiupac.vcf.gz.tbi",
         regions=(
             "results/called/{contig}.regions.bed"
             if config["processing"].get("restrict-regions")
@@ -35,7 +35,7 @@ rule call_variants:
 
 rule combine_calls:
     input:
-        ref="results/resources/genome.fasta",
+        ref="resources/genome.fasta",
         gvcfs=expand("results/called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index),
     output:
         gvcf="results/called/all.{contig}.g.vcf.gz",
@@ -47,7 +47,7 @@ rule combine_calls:
 
 rule genotype_variants:
     input:
-        ref="results/resources/genome.fasta",
+        ref="resources/genome.fasta",
         gvcf="results/called/all.{contig}.g.vcf.gz",
     output:
         vcf=temp("results/genotyped/all.{contig}.vcf.gz"),
