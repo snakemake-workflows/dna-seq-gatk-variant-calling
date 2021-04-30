@@ -36,7 +36,9 @@ rule call_variants:
 rule combine_calls:
     input:
         ref="resources/genome.fasta",
-        gvcfs=expand("results/called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index),
+        gvcfs=expand(
+            "results/called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index
+        ),
     output:
         gvcf="results/called/all.{contig}.g.vcf.gz",
     log:
@@ -61,7 +63,9 @@ rule genotype_variants:
 
 rule merge_variants:
     input:
-        vcfs=lambda w: expand("results/genotyped/all.{contig}.vcf.gz", contig=get_contigs()),
+        vcfs=lambda w: expand(
+            "results/genotyped/all.{contig}.vcf.gz", contig=get_contigs()
+        ),
     output:
         vcf="results/genotyped/all.vcf.gz",
     log:
