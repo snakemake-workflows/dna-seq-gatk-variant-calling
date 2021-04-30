@@ -69,6 +69,7 @@ rule recalibrate_base_qualities:
         ref="resources/genome.fasta",
         dict="resources/genome.dict",
         known="resources/variation.noiupac.vcf.gz",
+        known_idx="resources/variation.noiupac.vcf.gz.tbi",
     output:
         recal_table="results/recal/{sample}-{unit}.grp",
     log:
