@@ -44,7 +44,7 @@ rule combine_calls:
     log:
         "logs/gatk/combinegvcfs.{contig}.log",
     wrapper:
-        "0.59.2/bio/gatk/combinegvcfs"
+        "0.74.0/bio/gatk/combinegvcfs"
 
 
 rule genotype_variants:
@@ -58,7 +58,7 @@ rule genotype_variants:
     log:
         "logs/gatk/genotypegvcfs.{contig}.log",
     wrapper:
-        "0.59.2/bio/gatk/genotypegvcfs"
+        "0.74.0/bio/gatk/genotypegvcfs"
 
 
 rule merge_variants:
@@ -71,4 +71,4 @@ rule merge_variants:
     log:
         "logs/picard/merge-genotyped.log",
     wrapper:
-        "0.59.2/bio/picard/mergevcfs"
+        "0.74.0/bio/picard/mergevcfs"
