@@ -1,5 +1,5 @@
-samples: samples.tsv
-units: units.tsv
+samples: config/samples.tsv
+units: config/units.tsv
 
 ref:
   species: saccharomyces_cerevisiae

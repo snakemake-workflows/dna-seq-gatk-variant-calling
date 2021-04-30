@@ -1,8 +1,8 @@
 rule annotate_variants:
     input:
         calls="results/filtered/all.vcf.gz",
-        cache="results/resources/vep/cache",
-        plugins="results/resources/vep/plugins",
+        cache="resources/vep/cache",
+        plugins="resources/vep/plugins",
     output:
         calls=report(
             "results/annotated/all.vcf.gz", caption="../report/vcf.rst", category="Calls"
