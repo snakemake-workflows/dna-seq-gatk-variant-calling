@@ -87,15 +87,15 @@ rule apply_base_quality_recalibration:
         bai=get_recal_input(bai=True),
         ref="resources/genome.fasta",
         dict="resources/genome.dict",
-        recal_table="results/recal/{sample}-{unit}.grp"
+        recal_table="results/recal/{sample}-{unit}.grp",
     output:
-        bam=protected("results/recal/{sample}-{unit}.bam")
+        bam=protected("results/recal/{sample}-{unit}.bam"),
     log:
         "logs/gatk/apply-bqsr/{sample}-{unit}.log",
     params:
         extra=get_regions_param(),
     resources:
-        mem_mb=1024
+        mem_mb=1024,
     wrapper:
         "0.74.0/bio/gatk/applybqsr"
 
