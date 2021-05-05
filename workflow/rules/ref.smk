@@ -85,18 +85,18 @@ rule tabix_known_variants:
         "0.74.0/bio/tabix"
 
 
-rule bwa_index:
+rule bwa_mem2_index:
     input:
         "resources/genome.fasta",
     output:
-        multiext("resources/genome.fasta", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        multiext("resources/genome.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"),
     log:
         "logs/bwa_index.log",
     resources:
         mem_mb=369000,
     cache: True
     wrapper:
-        "0.74.0/bio/bwa/index"
+        "0.74.0/bio/bwa-mem2/index"
 
 
 rule get_vep_cache:
