@@ -17,9 +17,17 @@ filtering:
     # hard filtering as outlined in GATK docs
     # (https://gatkforums.broadinstitute.org/gatk/discussion/2806/howto-apply-hard-filters-to-a-call-set)
     snvs:
-      "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
+      QD2: "QD < 2.0"
+      SOR3: "SOR > 3.0"
+      FS60: "FS > 60.0"
+      MQ40: "MQ < 40.0"
+      MQRS125: "MQRankSum < -12.5"
+      RPRS8: "ReadPosRankSum < -8.0"
     indels:
-      "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
+      QD2: "QD < 2.0"
+      SOR3: "SOR > 3.0"
+      FS200: "FS > 200.0"
+      RPRS20: "ReadPosRankSum < -20.0"
 
 processing:
   remove-duplicates: true

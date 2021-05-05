@@ -29,7 +29,7 @@ rule multiqc:
                 "results/qc/fastqc/{u.sample}-{u.unit}.zip",
                 "results/qc/dedup/{u.sample}-{u.unit}.metrics.txt",
             ],
-            u=units.itertuples(),
+            u=list(units.itertuples()),
         ),
     output:
         report(

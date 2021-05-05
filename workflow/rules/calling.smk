@@ -33,24 +33,25 @@ rule call_variants:
         "0.59.0/bio/gatk/haplotypecaller"
 
 
-rule combine_calls:
+rule genomics_db_import:
     input:
-        ref="resources/genome.fasta",
         gvcfs=expand(
             "results/called/{sample}.{{contig}}.g.vcf.gz", sample=samples.index
         ),
     output:
-        gvcf="results/called/all.{contig}.g.vcf.gz",
+        db=directory("results/db/{contig}"),
     log:
-        "logs/gatk/combinegvcfs.{contig}.log",
+        "logs/gatk/genomicsdbimport.{contig}.log",
+    params:
+        intervals="{contig}",
     wrapper:
-        "0.74.0/bio/gatk/combinegvcfs"
+        "0.74.0/bio/gatk/genomicsdbimport"
 
 
 rule genotype_variants:
     input:
         ref="resources/genome.fasta",
-        gvcf="results/called/all.{contig}.g.vcf.gz",
+        genomicsdb="results/db/{contig}",
     output:
         vcf=temp("results/genotyped/all.{contig}.vcf.gz"),
     params:
