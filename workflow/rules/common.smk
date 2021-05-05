@@ -135,4 +135,4 @@ def get_vartype_arg(wildcards):
 
 
 def get_filter(wildcards):
-    return {"snv-hard-filter": config["filtering"]["hard"][wildcards.vartype]}
+    return config["filtering"]["hard"][wildcards.vartype]

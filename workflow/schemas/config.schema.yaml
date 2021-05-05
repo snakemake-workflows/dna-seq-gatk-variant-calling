@@ -33,9 +33,9 @@ properties:
         type: object
         properties:
           snvs:
-            type: string
+            type: object
           indels:
-            type: string
+            type: object
         required:
           - snvs
           - indels
