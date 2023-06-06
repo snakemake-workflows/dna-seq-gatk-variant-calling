@@ -2,19 +2,22 @@ name: Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
   pull_request:
-    branches: [ main ]
+    branches_ignore: []
 
 jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
+    - name: Checkout with submodules
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        fetch-depth: 0
     - name: Formatting
-      uses: github/super-linter@v3.16.1
+      uses: github/super-linter@v5
       env:
         VALIDATE_ALL_CODEBASE: false
         DEFAULT_BRANCH: main
@@ -24,13 +27,11 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
+    - uses: actions/checkout@v3
     - name: Linting
-      uses: snakemake/snakemake-github-action@v1.17.0
+      uses: snakemake/snakemake-github-action@v1.22.0
       with:
-        directory: '.test'
+        directory: .test
         snakefile: workflow/Snakefile
         args: '--lint'
 
@@ -40,14 +41,13 @@ jobs:
       - formatting
       - linting
     steps:
-    - uses: actions/checkout@v1
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
-    
-    - name: snakemake
-      uses: snakemake/snakemake-github-action@v1.17.0
+    - name: Checkout repository with submodules
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: Test workflow
+      uses: snakemake/snakemake-github-action@v1.22.0
       with:
         directory: .test
         snakefile: workflow/Snakefile
-        args: "--use-conda --show-failed-logs --cores 1 --conda-cleanup-pkgs cache"
-
+        args: "--use-conda --show-failed-logs --cores 2 --conda-cleanup-pkgs cache"
