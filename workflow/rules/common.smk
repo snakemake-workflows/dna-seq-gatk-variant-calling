@@ -38,6 +38,7 @@ wildcard_constraints:
 
 ##### Helper functions #####
 
+
 # contigs in reference genome
 def get_contigs():
     with checkpoints.genome_faidx.get().output[0].open() as fai:
@@ -70,9 +71,7 @@ def get_trimmed_reads(wildcards):
     if not is_single_end(**wildcards):
         # paired-end sample
         return expand(
-            "results/trimmed/{sample}-{unit}.{group}.fastq.gz",
-            group=[1, 2],
-            **wildcards
+            "results/trimmed/{sample}-{unit}.{group}.fastq.gz", group=[1, 2], **wildcards
         )
     # single end sample
     return "results/trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
