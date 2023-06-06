@@ -40,4 +40,4 @@ rule multiqc:
     log:
         "logs/multiqc.log",
     wrapper:
-        "0.74.0/bio/multiqc"
+        "v1.31.1/bio/multiqc"
