@@ -89,7 +89,7 @@ rule bwa_index:
     input:
         "resources/genome.fasta",
     output:
-        multiext("resources/genome.fasta", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        idx=multiext("resources/genome.fasta", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     log:
         "logs/bwa_index.log",
     resources:
