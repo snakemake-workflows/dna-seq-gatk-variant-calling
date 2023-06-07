@@ -10,7 +10,7 @@ rule get_genome:
         release=config["ref"]["release"],
     cache: True
     wrapper:
-        "0.74.0/bio/reference/ensembl-sequence"
+        "v1.31.1/bio/reference/ensembl-sequence"
 
 
 checkpoint genome_faidx:
@@ -22,7 +22,7 @@ checkpoint genome_faidx:
         "logs/genome-faidx.log",
     cache: True
     wrapper:
-        "0.74.0/bio/samtools/faidx"
+        "v1.31.1/bio/samtools/faidx"
 
 
 rule genome_dict:
@@ -54,7 +54,7 @@ rule get_known_variation:
         type="all",
     cache: True
     wrapper:
-        "0.74.0/bio/reference/ensembl-variation"
+        "v1.31.1/bio/reference/ensembl-variation"
 
 
 rule remove_iupac_codes:
@@ -82,7 +82,7 @@ rule tabix_known_variants:
         "-p vcf",
     cache: True
     wrapper:
-        "0.74.0/bio/tabix"
+        "v1.31.1/bio/tabix"
 
 
 rule bwa_index:
@@ -96,7 +96,7 @@ rule bwa_index:
         mem_mb=369000,
     cache: True
     wrapper:
-        "0.74.0/bio/bwa/index"
+        "v1.31.1/bio/bwa/index"
 
 
 rule get_vep_cache:
@@ -109,7 +109,7 @@ rule get_vep_cache:
     log:
         "logs/vep/cache.log",
     wrapper:
-        "0.74.0/bio/vep/cache"
+        "v1.31.1/bio/vep/cache"
 
 
 rule get_vep_plugins:
@@ -120,4 +120,4 @@ rule get_vep_plugins:
     params:
         release=config["ref"]["release"],
     wrapper:
-        "0.74.0/bio/vep/plugins"
+        "v1.31.1/bio/vep/plugins"
