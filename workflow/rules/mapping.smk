@@ -50,14 +50,14 @@ rule map_reads:
 
 rule mark_duplicates:
     input:
-        "results/mapped/{sample}-{unit}.sorted.bam",
+        bams="results/mapped/{sample}-{unit}.sorted.bam",
     output:
         bam=temp("results/dedup/{sample}-{unit}.bam"),
         metrics="results/qc/dedup/{sample}-{unit}.metrics.txt",
     log:
         "logs/picard/dedup/{sample}-{unit}.log",
     params:
-        config["params"]["picard"]["MarkDuplicates"],
+        extra=config["params"]["picard"]["MarkDuplicates"],
     wrapper:
         "v1.31.1/bio/picard/markduplicates"
 
@@ -66,7 +66,7 @@ rule recalibrate_base_qualities:
     input:
         bam=get_recal_input(),
         bai=get_recal_input(bai=True),
-        ref="resources/genome.fasta",
+        kef="resources/genome.fasta",
         dict="resources/genome.dict",
         known="resources/variation.noiupac.vcf.gz",
         known_idx="resources/variation.noiupac.vcf.gz.tbi",
